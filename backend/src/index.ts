@@ -44,6 +44,8 @@ async function boot(): Promise<void> {
   getRedisClient();
   initSocket(httpServer);
 
+  await import("./workers/generationWorker");
+
   const PORT = process.env.PORT || 5000;
   httpServer.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
