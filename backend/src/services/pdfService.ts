@@ -104,4 +104,34 @@ function buildHTML(paper: QuestionPaper, assignment: Assignment): string {
 </html>`;
 }
 
-export asy
+export async function generatePDF(
+  paper: QuestionPaper,
+  assignment: Assignment
+): Promise<Buffer> {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+    ],
+  });
+
+  try {
+    const page = await browser.newPage();
+    await page.setContent(buildHTML(paper, assignment), {
+      waitUntil: "load" as const,
+    });
+
+    const pdf = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: { top: "20mm", bottom: "20mm", left: "20mm", right: "20mm" },
+    });
+
+    return Buffer.from(pdf);
+  } finally {
+    await browser.close();
+  }
+}

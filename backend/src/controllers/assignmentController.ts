@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { AssignmentModel } from "../models/Assignment";
 import { QuestionPaperModel } from "../models/QuestionPaper";
 import { addAssignmentJob } from "../queues/assignmentQueue";
-import { cacheGet, cacheSet, keys } from "../config/redis";
+import { cacheGet, cacheSet } from "../config/redis";
 import { generatePDF } from "../services/pdfService";
 import type { QuestionPaper, Assignment, QuestionTypeConfig } from "../types";
 
@@ -81,4 +81,57 @@ export async function getAssignment(req: Request, res: Response): Promise<void> 
   res.json({ success: true, data: assignment.toJSON() });
 }
 
-export async function list
+export async function listAssignments(_req: Request, res: Response): Promise<void> {
+  const assignments = await AssignmentModel.find()
+    .sort({ createdAt: -1 })
+    .limit(20)
+    .lean();
+
+  res.json({ success: true, data: assignments });
+}
+
+export async function getQuestionPaper(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  const cached = await cacheGet<QuestionPaper>(`paper:${id}`);
+  if (cached) {
+    res.json({ success: true, data: cached });
+    return;
+  }
+
+  const paper = await QuestionPaperModel.findOne({ assignmentId: id });
+  if (!paper) {
+    res.status(404).json({ success: false, error: "Question paper not found" });
+    return;
+  }
+
+  const paperJSON = paper.toJSON() as unknown as QuestionPaper;
+  await cacheSet(`paper:${id}`, paperJSON);
+
+  res.json({ success: true, data: paperJSON });
+}
+
+export async function downloadPDF(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  const [assignment, paper] = await Promise.all([
+    AssignmentModel.findById(id),
+    QuestionPaperModel.findOne({ assignmentId: id }),
+  ]);
+
+  if (!assignment || !paper) {
+    res.status(404).json({ success: false, error: "Assignment or paper not found" });
+    return;
+  }
+
+  const pdfBuffer = await generatePDF(
+    paper.toJSON() as unknown as QuestionPaper,
+    assignment.toJSON() as unknown as Assignment
+  );
+
+  const filename = `${assignment.title.replace(/\s+/g, "_")}_Paper.pdf`;
+
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+  res.send(pdfBuffer);
+}
