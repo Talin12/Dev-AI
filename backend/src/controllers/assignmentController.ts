@@ -7,21 +7,27 @@ import { generatePDF } from "../services/pdfService";
 import type { QuestionPaper, Assignment, QuestionTypeConfig, DifficultyDistribution } from "../types";
 
 export async function createAssignment(req: Request, res: Response): Promise<void> {
-  const { title, subject, grade, topic, dueDate, additionalInstructions } = req.body;
-
-  const questionTypes: QuestionTypeConfig[] =
-    typeof req.body.questionTypes === "string"
-      ? JSON.parse(req.body.questionTypes)
-      : req.body.questionTypes;
-
-  const difficultyDistribution: DifficultyDistribution =
-    typeof req.body.difficultyDistribution === "string"
-      ? JSON.parse(req.body.difficultyDistribution)
-      : req.body.difficultyDistribution;
+  let {
+    title,
+    subject,
+    grade,
+    topic,
+    dueDate,
+    questionTypes,
+    difficultyDistribution,
+    additionalInstructions,
+  } = req.body;
 
   if (!title || !subject || !grade || !topic || !dueDate || !questionTypes || !difficultyDistribution) {
     res.status(400).json({ success: false, error: "Missing required fields" });
     return;
+  }
+
+  if (typeof questionTypes === "string") {
+    questionTypes = JSON.parse(questionTypes);
+  }
+  if (typeof difficultyDistribution === "string") {
+    difficultyDistribution = JSON.parse(difficultyDistribution);
   }
 
   const totalQuestions = questionTypes.reduce(
