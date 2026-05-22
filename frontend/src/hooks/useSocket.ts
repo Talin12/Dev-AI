@@ -4,10 +4,8 @@ import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { useGenerationStore } from "../store/generationStore";
 
-const WS_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api").replace(
-  /\/api$/,
-  ""
-);
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const WS_URL = API_URL.split("/api")[0]; 
 
 export function useAssignmentSocket(assignmentId: string | null) {
   const socketRef = useRef<Socket | null>(null);
@@ -17,12 +15,14 @@ export function useAssignmentSocket(assignmentId: string | null) {
     if (!assignmentId) return;
 
     const socket = io(WS_URL, {
+      path: "/socket.io",
       transports: ["websocket", "polling"],
     });
 
     socketRef.current = socket;
 
     socket.on("connect", () => {
+      console.log("WebSocket Connected Successfully!");
       socket.emit("join-room", assignmentId);
     });
 
