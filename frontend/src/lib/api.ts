@@ -43,6 +43,12 @@ export async function deleteAssignment(id: string): Promise<void> {
   });
 }
 
+export async function regenerateAssignment(id: string): Promise<Assignment> {
+  return request<Assignment>(`/assignments/${id}/regenerate`, {
+    method: "POST",
+  });
+}
+
 export interface CreateAssignmentPayload {
   title: string;
   subject: string;

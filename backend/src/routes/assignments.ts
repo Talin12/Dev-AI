@@ -6,6 +6,7 @@ import {
   getQuestionPaper,
   downloadPDF,
   deleteAssignment,
+  regenerateAssignment,
 } from "../controllers/assignmentController";
 import { upload } from "../middleware/uploadHandler";
 
@@ -17,3 +18,4 @@ assignmentRouter.get("/:id", getAssignment);
 assignmentRouter.get("/:id/paper", getQuestionPaper);
 assignmentRouter.get("/:id/pdf", downloadPDF);
 assignmentRouter.delete("/:id", deleteAssignment);
+assignmentRouter.post("/:id/regenerate", regenerateAssignment); // ← NEW

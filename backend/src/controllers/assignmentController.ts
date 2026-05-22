@@ -154,3 +154,30 @@ export async function deleteAssignment(req: Request, res: Response): Promise<voi
 
   res.json({ success: true, data: { message: "Assignment deleted successfully" } });
 }
+
+// ── NEW ──────────────────────────────────────────────────────────────────────
+
+export async function regenerateAssignment(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  const assignment = await AssignmentModel.findById(id);
+  if (!assignment) {
+    res.status(404).json({ success: false, error: "Assignment not found" });
+    return;
+  }
+
+  // Remove stale paper and bust cache in parallel
+  await Promise.all([
+    QuestionPaperModel.findOneAndDelete({ assignmentId: id }),
+    cacheDel(`paper:${id}`),
+    cacheDel(`assignment:${id}`),
+  ]);
+
+  // Reset status and enqueue a fresh generation job
+  assignment.status = "pending";
+  const jobId = await addAssignmentJob(id);
+  assignment.jobId = jobId;
+  await assignment.save();
+
+  res.json({ success: true, data: assignment.toJSON() });
+}
