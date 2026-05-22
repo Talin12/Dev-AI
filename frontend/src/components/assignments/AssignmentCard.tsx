@@ -20,6 +20,7 @@ interface AssignmentCardProps {
 export function AssignmentCard({ assignment }: AssignmentCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const status = statusConfig[assignment.status];
+  const assignmentId = assignment.id || (assignment as Assignment & { _id: string })._id;
 
   const formattedDate = new Date(assignment.createdAt).toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -54,7 +55,7 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
           {menuOpen && (
             <div className="absolute right-0 top-7 bg-white border border-[var(--border)] rounded-xl shadow-lg z-10 py-1 min-w-[150px]">
               <Link
-                href={`/assignments/${assignment.id}`}
+                href={`/assignments/${assignmentId}`}
                 className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-gray-50"
                 onClick={() => setMenuOpen(false)}
               >
@@ -83,8 +84,8 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
       </div>
 
       {assignment.status === "completed" && (
-        
-          href={downloadPDFUrl(assignment.id)}
+        <a
+          href={downloadPDFUrl(assignmentId)}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-3 block w-full text-center text-xs text-[var(--primary)] font-medium hover:underline"

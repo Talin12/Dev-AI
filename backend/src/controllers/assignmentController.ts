@@ -85,10 +85,9 @@ export async function getAssignment(req: Request, res: Response): Promise<void> 
 export async function listAssignments(_req: Request, res: Response): Promise<void> {
   const assignments = await AssignmentModel.find()
     .sort({ createdAt: -1 })
-    .limit(20)
-    .lean();
+    .limit(20);
 
-  res.json({ success: true, data: assignments });
+  res.json({ success: true, data: assignments.map((a) => a.toJSON()) });
 }
 
 export async function getQuestionPaper(req: Request, res: Response): Promise<void> {
