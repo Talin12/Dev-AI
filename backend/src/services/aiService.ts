@@ -7,13 +7,25 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const QuestionSchema = z.object({
   id: z.number(),
   text: z.string().min(5),
-  type: z.enum([
+  type: z.preprocess((val) => {
+    const s = String(val).toLowerCase().replace(/ /g, "_");
+    const map: Record<string, string> = {
+      "multiple_choice": "mcq",
+      "multiple_choice_question": "mcq",
+      "short_answer_question": "short_answer",
+      "long_answer_question": "long_answer",
+      "true_false_question": "true_false",
+      "true_or_false": "true_false",
+      "fill_in_the_blank": "fill_in_blank",
+    };
+    return map[s] || s;
+  }, z.enum([
     "mcq",
     "short_answer",
     "long_answer",
     "true_false",
     "fill_in_blank",
-  ]),
+  ])),
   difficulty: z.enum(["easy", "medium", "hard"]),
   marks: z.number().positive(),
   options: z.array(z.string()).optional(),
