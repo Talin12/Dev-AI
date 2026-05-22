@@ -62,10 +62,11 @@ export function ExamPaper({ paper, assignment, onRegenerate }: ExamPaperProps) {
             {isRegenerating ? "Regenerating…" : "Regenerate"}
           </button>
 
-          
-            href={downloadPDFUrl(assignmentId)}
-            download
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:bg-[var(--primary-dark)] transition-colors"
+          <a
+            href={`/api/assignments/${assignmentId}/download`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] transition-colors"
           >
             <Download size={15} />
             Download PDF

@@ -6,6 +6,9 @@ import { cacheGet, cacheSet, cacheDel } from "../config/redis";
 import { generatePDF } from "../services/pdfService";
 import type { QuestionPaper, Assignment, QuestionTypeConfig, DifficultyDistribution } from "../types";
 
+// Helper to ensure ID is a string
+const getId = (id: string | string[]): string => (Array.isArray(id) ? id[0] : id);
+
 export async function createAssignment(req: Request, res: Response): Promise<void> {
   const { title, subject, grade, topic, dueDate, additionalInstructions } = req.body;
 
@@ -71,7 +74,7 @@ export async function createAssignment(req: Request, res: Response): Promise<voi
 }
 
 export async function getAssignment(req: Request, res: Response): Promise<void> {
-  const { id } = req.params;
+  const id = getId(req.params.id as string);
 
   const assignment = await AssignmentModel.findById(id);
   if (!assignment) {
@@ -91,7 +94,7 @@ export async function listAssignments(_req: Request, res: Response): Promise<voi
 }
 
 export async function getQuestionPaper(req: Request, res: Response): Promise<void> {
-  const { id } = req.params;
+  const id = getId(req.params.id as string);
 
   const cached = await cacheGet<QuestionPaper>(`paper:${id}`);
   if (cached) {
@@ -112,7 +115,7 @@ export async function getQuestionPaper(req: Request, res: Response): Promise<voi
 }
 
 export async function downloadPDF(req: Request, res: Response): Promise<void> {
-  const { id } = req.params;
+  const id = getId(req.params.id as string);
 
   const [assignment, paper] = await Promise.all([
     AssignmentModel.findById(id),
@@ -124,12 +127,13 @@ export async function downloadPDF(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  const baseName = assignment.title ? assignment.title : "Exam";
   const pdfBuffer = await generatePDF(
     paper.toJSON() as unknown as QuestionPaper,
     assignment.toJSON() as unknown as Assignment
   );
 
-  const filename = `${assignment.title.replace(/\s+/g, "_")}_Paper.pdf`;
+  const filename = `${baseName.replace(/\s+/g, "_")}_Paper.pdf`;
 
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
@@ -137,7 +141,7 @@ export async function downloadPDF(req: Request, res: Response): Promise<void> {
 }
 
 export async function deleteAssignment(req: Request, res: Response): Promise<void> {
-  const { id } = req.params;
+  const id = getId(req.params.id as string);
 
   const assignment = await AssignmentModel.findById(id);
   if (!assignment) {
@@ -155,10 +159,8 @@ export async function deleteAssignment(req: Request, res: Response): Promise<voi
   res.json({ success: true, data: { message: "Assignment deleted successfully" } });
 }
 
-// ── NEW ──────────────────────────────────────────────────────────────────────
-
 export async function regenerateAssignment(req: Request, res: Response): Promise<void> {
-  const { id } = req.params;
+  const id = getId(req.params.id as string);
 
   const assignment = await AssignmentModel.findById(id);
   if (!assignment) {
@@ -166,14 +168,12 @@ export async function regenerateAssignment(req: Request, res: Response): Promise
     return;
   }
 
-  // Remove stale paper and bust cache in parallel
   await Promise.all([
     QuestionPaperModel.findOneAndDelete({ assignmentId: id }),
     cacheDel(`paper:${id}`),
     cacheDel(`assignment:${id}`),
   ]);
 
-  // Reset status and enqueue a fresh generation job
   assignment.status = "pending";
   const jobId = await addAssignmentJob(id);
   assignment.jobId = jobId;
