@@ -2,45 +2,65 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PlusCircle, BookOpen, Users, Library, Settings } from "lucide-react";
+import { LayoutDashboard, PlusCircle, BookOpen, Users, Library, Settings, X } from "lucide-react";
 
 const navItems = [
-  // FIX: Home now routes to "/" not "/assignments"
   { label: "Home", href: "/", icon: LayoutDashboard, exact: true },
   { label: "My Groups", href: "/groups", icon: Users, exact: false },
   { label: "Assignments", href: "/assignments", icon: BookOpen, exact: false },
   { label: "My Library", href: "/library", icon: Library, exact: false },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   function isActive(href: string, exact: boolean): boolean {
     if (exact) return pathname === href;
-    // FIX: use strict boundary check — "/assignments" must not match "/assignments/create"
     return pathname === href || pathname.startsWith(href + "/");
   }
 
   return (
-    <aside className="w-[260px] min-h-screen bg-white border-r border-[var(--border)] flex flex-col shrink-0">
+    <aside
+      className={`
+        fixed inset-y-0 left-0 z-50 w-[260px] bg-white border-r border-[var(--border)]
+        flex flex-col shrink-0 transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        md:relative md:translate-x-0 md:z-auto
+      `}
+    >
       <div className="px-5 py-5">
-        {/* Logo */}
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center">
-            <span className="text-white font-bold text-sm">V</span>
+        {/* Logo row — X button visible on mobile only */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center">
+              <span className="text-white font-bold text-sm">V</span>
+            </div>
+            <span className="text-xl font-bold text-[var(--text-primary)]">VedaAI</span>
           </div>
-          <span className="text-xl font-bold text-[var(--text-primary)]">VedaAI</span>
+          {/* Close button — mobile only */}
+          <button
+            onClick={onClose}
+            className="md:hidden text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         <Link
           href="/assignments/create"
+          onClick={onClose}
           className="flex items-center gap-2 w-full px-4 py-2.5 rounded-full bg-[var(--text-primary)] text-white text-sm font-medium hover:bg-gray-800 transition-colors mb-6"
         >
           <PlusCircle size={16} />
           Create Assignment
         </Link>
 
-        {/* FIX: "AI Teacher's Toolkit" section label above nav links */}
         <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)] px-3 mb-2">
           AI Teacher's Toolkit
         </p>
@@ -53,6 +73,7 @@ export function Sidebar() {
               <Link
                 key={item.label}
                 href={item.href}
+                onClick={onClose}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                   active
                     ? "bg-gray-100 text-[var(--text-primary)] font-medium"
@@ -70,6 +91,7 @@ export function Sidebar() {
       <div className="mt-auto px-5 py-4 border-t border-[var(--border)]">
         <Link
           href="/settings"
+          onClick={onClose}
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--text-muted)] hover:bg-gray-50 hover:text-[var(--text-primary)] transition-colors"
         >
           <Settings size={17} />

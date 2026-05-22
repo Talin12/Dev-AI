@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Bell, ChevronDown, ArrowLeft, User, LogOut } from "lucide-react";
+import { Bell, ChevronDown, ArrowLeft, User, LogOut, Menu } from "lucide-react";
 import Link from "next/link";
 
 const routeLabels: Record<string, string> = {
@@ -16,7 +16,11 @@ function getLabel(pathname: string): string {
   return "VedaAI";
 }
 
-export function Topbar() {
+interface TopbarProps {
+  onMenuToggle: () => void;
+}
+
+export function Topbar({ onMenuToggle }: TopbarProps) {
   const pathname = usePathname();
   const label = getLabel(pathname);
   const showBack = pathname !== "/assignments";
@@ -27,7 +31,6 @@ export function Topbar() {
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
-  // Close both popovers on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
@@ -42,9 +45,18 @@ export function Topbar() {
   }, []);
 
   return (
-    <header className="h-[60px] bg-white border-b border-[var(--border)] flex items-center justify-between px-6 shrink-0">
-      {/* Left: back arrow + route label wrapped in Link for logo routing */}
+    <header className="h-[60px] bg-white border-b border-[var(--border)] flex items-center justify-between px-4 md:px-6 shrink-0">
+      {/* Left: hamburger (mobile only) + back arrow + route label */}
       <div className="flex items-center gap-3">
+        {/* Hamburger — mobile only */}
+        <button
+          onClick={onMenuToggle}
+          className="md:hidden text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu size={20} />
+        </button>
+
         {showBack && (
           <Link
             href="/assignments"
@@ -62,7 +74,7 @@ export function Topbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Notification bell with popover */}
+        {/* Notification bell */}
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => {
@@ -83,7 +95,7 @@ export function Topbar() {
           )}
         </div>
 
-        {/* Profile button with dropdown */}
+        {/* Profile dropdown */}
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => {
@@ -95,7 +107,7 @@ export function Topbar() {
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold">
               J
             </div>
-            John Doe
+            <span className="hidden sm:inline">John Doe</span>
             <ChevronDown
               size={15}
               className={`text-[var(--text-muted)] transition-transform duration-200 ${profileOpen ? "rotate-180" : ""}`}
