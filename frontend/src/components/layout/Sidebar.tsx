@@ -5,18 +5,26 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, PlusCircle, BookOpen, Users, Library, Settings } from "lucide-react";
 
 const navItems = [
-  { label: "Home", href: "/assignments", icon: LayoutDashboard },
-  { label: "My Groups", href: "/groups", icon: Users },
-  { label: "Assignments", href: "/assignments", icon: BookOpen },
-  { label: "My Library", href: "/library", icon: Library },
+  // FIX: Home now routes to "/" not "/assignments"
+  { label: "Home", href: "/", icon: LayoutDashboard, exact: true },
+  { label: "My Groups", href: "/groups", icon: Users, exact: false },
+  { label: "Assignments", href: "/assignments", icon: BookOpen, exact: false },
+  { label: "My Library", href: "/library", icon: Library, exact: false },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
 
+  function isActive(href: string, exact: boolean): boolean {
+    if (exact) return pathname === href;
+    // FIX: use strict boundary check — "/assignments" must not match "/assignments/create"
+    return pathname === href || pathname.startsWith(href + "/");
+  }
+
   return (
     <aside className="w-[260px] min-h-screen bg-white border-r border-[var(--border)] flex flex-col shrink-0">
       <div className="px-5 py-5">
+        {/* Logo */}
         <div className="flex items-center gap-2 mb-6">
           <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center">
             <span className="text-white font-bold text-sm">V</span>
@@ -32,16 +40,21 @@ export function Sidebar() {
           Create Assignment
         </Link>
 
+        {/* FIX: "AI Teacher's Toolkit" section label above nav links */}
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)] px-3 mb-2">
+          AI Teacher's Toolkit
+        </p>
+
         <nav className="flex flex-col gap-1">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            const active = isActive(item.href, item.exact);
             return (
               <Link
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                  isActive
+                  active
                     ? "bg-gray-100 text-[var(--text-primary)] font-medium"
                     : "text-[var(--text-muted)] hover:bg-gray-50 hover:text-[var(--text-primary)]"
                 }`}
