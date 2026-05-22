@@ -4,29 +4,85 @@ import type { Assignment, QuestionPaper } from "../types";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const TYPE_ALIAS_MAP: Record<string, string> = {
+  multiple_choice: "mcq",
+  multiple_choice_question: "mcq",
+  multiple_choice_questions: "mcq",
+  "multiple-choice": "mcq",
+  multichoice: "mcq",
+  multi_choice: "mcq",
+
+  short_answer_question: "short_answer",
+  short_answer_questions: "short_answer",
+  "short-answer": "short_answer",
+  short_answers: "short_answer",
+  short: "short_answer",
+
+  long_answer_question: "long_answer",
+  long_answer_questions: "long_answer",
+  "long-answer": "long_answer",
+  long_answers: "long_answer",
+  essay: "long_answer",
+  descriptive: "long_answer",
+
+  "true/false": "true_false",
+  "true-false": "true_false",
+  truefalse: "true_false",
+  true_or_false: "true_false",
+  true_false_question: "true_false",
+  true_false_questions: "true_false",
+  boolean: "true_false",
+
+  fill_in_the_blank: "fill_in_blank",
+  fill_in_the_blanks: "fill_in_blank",
+  fill_in_blank_question: "fill_in_blank",
+  fill_in_blank_questions: "fill_in_blank",
+  "fill-in-the-blank": "fill_in_blank",
+  "fill-in-blank": "fill_in_blank",
+  fillintheblanks: "fill_in_blank",
+  blank: "fill_in_blank",
+  completion: "fill_in_blank",
+};
+
+const VALID_TYPES = new Set([
+  "mcq",
+  "short_answer",
+  "long_answer",
+  "true_false",
+  "fill_in_blank",
+]);
+
+function normalizeType(val: unknown): string {
+  const s = String(val)
+    .trim()
+    .toLowerCase()
+    .replace(/[\s/]+/g, "_")   
+    .replace(/-+/g, "_");      
+
+  if (VALID_TYPES.has(s)) return s;
+
+  if (TYPE_ALIAS_MAP[s]) return TYPE_ALIAS_MAP[s];
+
+  for (const valid of VALID_TYPES) {
+    if (s.includes(valid)) return valid;
+  }
+
+  console.warn(`[aiService] Unknown question type "${val}" — defaulting to "short_answer"`);
+  return "short_answer";
+}
+
 const QuestionSchema = z.object({
   id: z.number(),
   text: z.string().min(5),
-  type: z.preprocess((val) => {
-    const s = String(val).toLowerCase().replace(/ /g, "_");
-    const map: Record<string, string> = {
-      "multiple_choice": "mcq",
-      "multiple_choice_question": "mcq",
-      "short_answer_question": "short_answer",
-      "long_answer_question": "long_answer",
-      "true_false_question": "true_false",
-      "true_or_false": "true_false",
-      "fill_in_the_blank": "fill_in_blank",
-    };
-    return map[s] || s;
-  }, z.enum([
-    "mcq",
-    "short_answer",
-    "long_answer",
-    "true_false",
-    "fill_in_blank",
-  ])),
-  difficulty: z.enum(["easy", "medium", "hard"]),
+  type: z.preprocess(
+    normalizeType,
+    z.enum(["mcq", "short_answer", "long_answer", "true_false", "fill_in_blank"])
+  ),
+  difficulty: z.preprocess(
+    // Also guard difficulty in case AI returns "Easy" with a capital
+    (val) => String(val).trim().toLowerCase(),
+    z.enum(["easy", "medium", "hard"])
+  ),
   marks: z.number().positive(),
   options: z.array(z.string()).optional(),
   answer: z.string().optional(),
@@ -76,15 +132,15 @@ function buildPrompt(assignment: Assignment): string {
 
   const diff = assignment.difficultyDistribution;
 
+  const allowedTypes = `"mcq", "short_answer", "long_answer", "true_false", "fill_in_blank"`;
+
   return `You are generating a formal school exam paper. Return ONLY a valid JSON object with no markdown, no code fences, no explanation.
 
 Subject: ${assignment.subject}
 Grade: ${assignment.grade}
 Topic: ${assignment.topic}
 Total Marks: ${assignment.totalMarks}
-Additional Instructions: ${
-    assignment.additionalInstructions || "None"
-  }
+Additional Instructions: ${assignment.additionalInstructions || "None"}
 
 Difficulty split across all questions:
 - Easy: ${diff.easy}%
@@ -93,6 +149,9 @@ Difficulty split across all questions:
 
 Sections:
 ${sections}
+
+CRITICAL: The "type" field of every question MUST be one of exactly these strings: ${allowedTypes}
+Do NOT use any other values such as "multiple_choice", "true/false", or "fill_in_the_blank".
 
 Rules:
 - Questions must suit ${assignment.grade} students
@@ -165,7 +224,7 @@ export async function generatePaper(
       {
         role: "system",
         content:
-          "You are an exam paper generator. Respond with valid JSON only. No markdown, no extra text.",
+          'You are an exam paper generator. Respond with valid JSON only. No markdown, no extra text. Question type values must be one of: "mcq", "short_answer", "long_answer", "true_false", "fill_in_blank".',
       },
       {
         role: "user",
@@ -207,10 +266,7 @@ export async function generatePaper(
     ...result.data,
     sections: result.data.sections.map((section) => ({
       ...section,
-      totalMarks: section.questions.reduce(
-        (sum, q) => sum + q.marks,
-        0
-      ),
+      totalMarks: section.questions.reduce((sum, q) => sum + q.marks, 0),
     })),
   };
 

@@ -20,7 +20,8 @@ export default function AssignmentOutputPage() {
   const [pageError, setPageError] = useState<string | null>(null);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-  const { generationStatus, setGenerationStatus, setAssignmentId } = useGenerationStore();
+  const { generationStatus, statusMessage, setGenerationStatus, setAssignmentId } =
+    useGenerationStore();
 
   useAssignmentSocket(id);
 
@@ -103,8 +104,9 @@ export default function AssignmentOutputPage() {
         <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
           Generation Failed
         </h2>
+        {/* FIX 3: Use destructured statusMessage, not useGenerationStore.getState() in JSX */}
         <p className="text-sm text-[var(--text-muted)] mb-6 max-w-sm">
-          {useGenerationStore.getState().statusMessage || "Something went wrong during generation."}
+          {statusMessage || "Something went wrong during generation."}
         </p>
         <button
           onClick={() => router.push("/assignments/create")}

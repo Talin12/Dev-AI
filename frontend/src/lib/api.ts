@@ -2,6 +2,13 @@ import type { Assignment, QuestionPaper, ApiResponse, QuestionTypeConfig, Diffic
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
+function normalizeAssignment(raw: Assignment & { _id?: string }): Assignment & { id: string } {
+  return {
+    ...raw,
+    id: raw._id ?? (raw as unknown as { id: string }).id,
+  };
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
@@ -19,12 +26,14 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return json.data as T;
 }
 
-export async function getAssignments(): Promise<Assignment[]> {
-  return request<Assignment[]>("/assignments");
+export async function getAssignments(): Promise<(Assignment & { id: string })[]> {
+  const data = await request<(Assignment & { _id?: string })[]>("/assignments");
+  return data.map(normalizeAssignment);
 }
 
-export async function getAssignment(id: string): Promise<Assignment> {
-  return request<Assignment>(`/assignments/${id}`);
+export async function getAssignment(id: string): Promise<Assignment & { id: string }> {
+  const data = await request<Assignment & { _id?: string }>(`/assignments/${id}`);
+  return normalizeAssignment(data);
 }
 
 export async function getPaper(id: string): Promise<QuestionPaper> {
@@ -45,7 +54,7 @@ export interface CreateAssignmentPayload {
 export async function createAssignment(
   data: CreateAssignmentPayload,
   file?: File
-): Promise<Assignment> {
+): Promise<Assignment & { id: string }> {
   const formData = new FormData();
 
   formData.append("title", data.title);
@@ -69,13 +78,14 @@ export async function createAssignment(
     body: formData,
   });
 
-  const json: ApiResponse<Assignment> = await res.json();
+  const json: ApiResponse<Assignment & { _id?: string }> = await res.json();
 
   if (!res.ok || !json.success) {
     throw new Error(json.error || "Failed to create assignment");
   }
 
-  return json.data as Assignment;
+  // FIX 1 applied here too — normalize the create response
+  return normalizeAssignment(json.data as Assignment & { _id?: string });
 }
 
 export function downloadPDFUrl(id: string): string {
