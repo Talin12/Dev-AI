@@ -1,13 +1,12 @@
-import type { Assignment, QuestionPaper, ApiResponse, QuestionTypeConfig, DifficultyDistribution } from "../types";
+import type {
+  Assignment,
+  QuestionPaper,
+  ApiResponse,
+  QuestionTypeConfig,
+  DifficultyDistribution,
+} from "../types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-
-function normalizeAssignment(raw: Assignment & { _id?: string }): Assignment & { id: string } {
-  return {
-    ...raw,
-    id: raw._id ?? (raw as unknown as { id: string }).id,
-  };
-}
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -26,18 +25,22 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return json.data as T;
 }
 
-export async function getAssignments(): Promise<(Assignment & { id: string })[]> {
-  const data = await request<(Assignment & { _id?: string })[]>("/assignments");
-  return data.map(normalizeAssignment);
+export async function getAssignments(): Promise<Assignment[]> {
+  return request<Assignment[]>("/assignments");
 }
 
-export async function getAssignment(id: string): Promise<Assignment & { id: string }> {
-  const data = await request<Assignment & { _id?: string }>(`/assignments/${id}`);
-  return normalizeAssignment(data);
+export async function getAssignment(id: string): Promise<Assignment> {
+  return request<Assignment>(`/assignments/${id}`);
 }
 
 export async function getPaper(id: string): Promise<QuestionPaper> {
   return request<QuestionPaper>(`/assignments/${id}/paper`);
+}
+
+export async function deleteAssignment(id: string): Promise<void> {
+  await request<{ message: string }>(`/assignments/${id}`, {
+    method: "DELETE",
+  });
 }
 
 export interface CreateAssignmentPayload {
@@ -54,7 +57,7 @@ export interface CreateAssignmentPayload {
 export async function createAssignment(
   data: CreateAssignmentPayload,
   file?: File
-): Promise<Assignment & { id: string }> {
+): Promise<Assignment> {
   const formData = new FormData();
 
   formData.append("title", data.title);
@@ -78,14 +81,13 @@ export async function createAssignment(
     body: formData,
   });
 
-  const json: ApiResponse<Assignment & { _id?: string }> = await res.json();
+  const json: ApiResponse<Assignment> = await res.json();
 
   if (!res.ok || !json.success) {
     throw new Error(json.error || "Failed to create assignment");
   }
 
-  // FIX 1 applied here too — normalize the create response
-  return normalizeAssignment(json.data as Assignment & { _id?: string });
+  return json.data as Assignment;
 }
 
 export function downloadPDFUrl(id: string): string {

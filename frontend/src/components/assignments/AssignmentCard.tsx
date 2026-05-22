@@ -15,9 +15,10 @@ const statusConfig = {
 
 interface AssignmentCardProps {
   assignment: Assignment;
+  onDelete: (id: string) => void;
 }
 
-export function AssignmentCard({ assignment }: AssignmentCardProps) {
+export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const status = statusConfig[assignment.status];
   const assignmentId = assignment.id || (assignment as Assignment & { _id: string })._id;
@@ -33,6 +34,16 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
     month: "2-digit",
     year: "numeric",
   });
+
+  const handleDelete = () => {
+    setMenuOpen(false);
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${assignment.title}"? This cannot be undone.`
+    );
+    if (confirmed) {
+      onDelete(assignmentId);
+    }
+  };
 
   return (
     <div className="bg-white rounded-xl border border-[var(--border)] p-5 hover:shadow-md transition-shadow relative">
@@ -62,7 +73,10 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
                 <Eye size={15} />
                 View Assignment
               </Link>
-              <button className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-gray-50 w-full">
+              <button
+                onClick={handleDelete}
+                className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-gray-50 w-full"
+              >
                 <Trash2 size={15} />
                 Delete
               </button>

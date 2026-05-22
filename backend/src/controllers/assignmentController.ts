@@ -2,32 +2,26 @@ import { Request, Response } from "express";
 import { AssignmentModel } from "../models/Assignment";
 import { QuestionPaperModel } from "../models/QuestionPaper";
 import { addAssignmentJob } from "../queues/assignmentQueue";
-import { cacheGet, cacheSet } from "../config/redis";
+import { cacheGet, cacheSet, cacheDel } from "../config/redis";
 import { generatePDF } from "../services/pdfService";
 import type { QuestionPaper, Assignment, QuestionTypeConfig, DifficultyDistribution } from "../types";
 
 export async function createAssignment(req: Request, res: Response): Promise<void> {
-  let {
-    title,
-    subject,
-    grade,
-    topic,
-    dueDate,
-    questionTypes,
-    difficultyDistribution,
-    additionalInstructions,
-  } = req.body;
+  const { title, subject, grade, topic, dueDate, additionalInstructions } = req.body;
+
+  const questionTypes: QuestionTypeConfig[] =
+    typeof req.body.questionTypes === "string"
+      ? JSON.parse(req.body.questionTypes)
+      : req.body.questionTypes;
+
+  const difficultyDistribution: DifficultyDistribution =
+    typeof req.body.difficultyDistribution === "string"
+      ? JSON.parse(req.body.difficultyDistribution)
+      : req.body.difficultyDistribution;
 
   if (!title || !subject || !grade || !topic || !dueDate || !questionTypes || !difficultyDistribution) {
     res.status(400).json({ success: false, error: "Missing required fields" });
     return;
-  }
-
-  if (typeof questionTypes === "string") {
-    questionTypes = JSON.parse(questionTypes);
-  }
-  if (typeof difficultyDistribution === "string") {
-    difficultyDistribution = JSON.parse(difficultyDistribution);
   }
 
   const totalQuestions = questionTypes.reduce(
@@ -140,4 +134,23 @@ export async function downloadPDF(req: Request, res: Response): Promise<void> {
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.send(pdfBuffer);
+}
+
+export async function deleteAssignment(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  const assignment = await AssignmentModel.findById(id);
+  if (!assignment) {
+    res.status(404).json({ success: false, error: "Assignment not found" });
+    return;
+  }
+
+  await Promise.all([
+    AssignmentModel.findByIdAndDelete(id),
+    QuestionPaperModel.findOneAndDelete({ assignmentId: id }),
+    cacheDel(`paper:${id}`),
+    cacheDel(`assignment:${id}`),
+  ]);
+
+  res.json({ success: true, data: { message: "Assignment deleted successfully" } });
 }

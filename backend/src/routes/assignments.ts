@@ -5,6 +5,7 @@ import {
   listAssignments,
   getQuestionPaper,
   downloadPDF,
+  deleteAssignment,
 } from "../controllers/assignmentController";
 import { upload } from "../middleware/uploadHandler";
 
@@ -15,3 +16,4 @@ assignmentRouter.post("/", upload.single("file"), createAssignment);
 assignmentRouter.get("/:id", getAssignment);
 assignmentRouter.get("/:id/paper", getQuestionPaper);
 assignmentRouter.get("/:id/pdf", downloadPDF);
+assignmentRouter.delete("/:id", deleteAssignment);

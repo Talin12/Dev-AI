@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import { AssignmentCard } from "./AssignmentCard";
 import { EmptyState } from "./EmptyState";
+import { deleteAssignment } from "../../lib/api";
 import type { Assignment } from "../../types";
 
 interface AssignmentGridProps {
@@ -21,7 +25,21 @@ function SkeletonCard() {
   );
 }
 
-export function AssignmentGrid({ assignments, isLoading }: AssignmentGridProps) {
+export function AssignmentGrid({ assignments: initialAssignments, isLoading }: AssignmentGridProps) {
+  const [assignments, setAssignments] = useState<Assignment[]>(initialAssignments);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteAssignment(id);
+      setAssignments((prev) => prev.filter((a) => {
+        const aId = a.id || (a as Assignment & { _id: string })._id;
+        return aId !== id;
+      }));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to delete assignment");
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -39,7 +57,11 @@ export function AssignmentGrid({ assignments, isLoading }: AssignmentGridProps) 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {assignments.map((assignment) => (
-        <AssignmentCard key={assignment.id} assignment={assignment} />
+        <AssignmentCard
+          key={assignment.id || (assignment as Assignment & { _id: string })._id}
+          assignment={assignment}
+          onDelete={handleDelete}
+        />
       ))}
     </div>
   );
