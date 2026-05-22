@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import { AssignmentModel } from "../models/Assignment";
+import { QuestionPaperModel } from "../models/QuestionPaper";
 import { addAssignmentJob } from "../queues/assignmentQueue";
-import type { QuestionTypeConfig } from "../types";
+import { cacheGet, cacheSet, keys } from "../config/redis";
+import { generatePDF } from "../services/pdfService";
+import type { QuestionPaper, Assignment, QuestionTypeConfig } from "../types";
 
 export async function createAssignment(req: Request, res: Response): Promise<void> {
   const {
@@ -78,11 +81,4 @@ export async function getAssignment(req: Request, res: Response): Promise<void> 
   res.json({ success: true, data: assignment.toJSON() });
 }
 
-export async function listAssignments(_req: Request, res: Response): Promise<void> {
-  const assignments = await AssignmentModel.find()
-    .sort({ createdAt: -1 })
-    .limit(20)
-    .lean();
-
-  res.json({ success: true, data: assignments });
-}
+export async function list
