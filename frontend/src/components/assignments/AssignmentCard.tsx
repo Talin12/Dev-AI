@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MoreVertical, Eye, Trash2, Calendar } from "lucide-react";
+import { MoreVertical, Eye, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { downloadPDFUrl } from "../../lib/api";
 import type { Assignment } from "../../types";
@@ -45,11 +45,10 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
     { day: "2-digit", month: "2-digit", year: "numeric" }
   );
 
-  const dueDate = new Date(assignment.dueDate).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  const dueDateFormatted = new Date(assignment.dueDate).toLocaleDateString(
+    "en-GB",
+    { day: "2-digit", month: "2-digit", year: "numeric" }
+  );
 
   const handleDelete = () => {
     setMenuOpen(false);
@@ -78,39 +77,52 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
           >
             <MoreVertical size={17} />
           </button>
+
           {menuOpen && (
-            <div className="absolute right-0 top-7 bg-white border border-[var(--border)] rounded-xl shadow-lg z-10 py-1 min-w-[160px]">
-              <Link
-                href={`/assignments/${assignmentId}`}
-                className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-gray-50"
+            <>
+              <div
+                className="fixed inset-0 z-10"
                 onClick={() => setMenuOpen(false)}
+              />
+              <div
+                className="absolute right-0 top-7 z-20 w-[140px] h-[84px] p-[8px] gap-[4px] rounded-xl flex flex-col items-center justify-center bg-white"
+                style={{
+                  boxShadow:
+                    "0px 32px 48px 0px rgba(0,0,0,0.05), 0px 16px 48px 0px rgba(0,0,0,0.2)",
+                }}
               >
-                <Eye size={14} className="text-gray-400" />
-                View Assignment
-              </Link>
-              <button
-                onClick={handleDelete}
-                className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-gray-50 w-full"
-              >
-                <Trash2 size={14} className="text-gray-300 hover:text-red-500 transition-colors" />
-                Delete
-              </button>
-            </div>
+                <Link
+                  href={`/assignments/${assignmentId}`}
+                  className="w-full flex items-center justify-center gap-2 text-sm text-[var(--text-primary)] hover:text-[var(--primary)] transition-colors py-1"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Eye size={14} className="text-gray-400" />
+                  View Assignment
+                </Link>
+
+                <button
+                  onClick={handleDelete}
+                  className="w-[124px] h-[32px] bg-[#F6F6F6] rounded-[8px] px-[8px] flex items-center justify-center gap-[10px] text-sm text-red-500 hover:bg-red-50 transition-colors"
+                >
+                  <Trash2 size={14} />
+                  Delete
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>
 
       <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
-            <Calendar size={12} />
-            <span>
-              <span className="font-medium">Assigned on</span> : {formattedDate}
-            </span>
+          <div className="text-[16px] leading-[1.2] tracking-[-0.04em] font-[Bricolage_Grotesque]">
+            <span className="font-[800]">Assigned on : </span>
+            <span className="font-[400]">{formattedDate}</span>
           </div>
-          <span className="text-xs text-[var(--text-muted)]">
-            <span className="font-medium">Due</span> : {dueDate}
-          </span>
+          <div className="text-[16px] leading-[1.2] tracking-[-0.04em] font-[Bricolage_Grotesque]">
+            <span className="font-[800]">Due : </span>
+            <span className="font-[400]">{dueDateFormatted}</span>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">

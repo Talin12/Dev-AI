@@ -14,8 +14,8 @@ export default function AssignmentsPage() {
   }, [fetchAssignments]);
 
   return (
-    <div>
-      <div className="flex items-start justify-between mb-6">
+    <div className="max-w-[1100px] mx-auto">
+      <div className="flex items-start justify-between mb-4">
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-[20px] font-bold leading-[1.4] tracking-[-0.04em] text-[var(--text-primary)]">
@@ -41,10 +41,15 @@ export default function AssignmentsPage() {
         </Link>
       </div>
 
-      <div className="flex items-center justify-between mb-5 gap-4">
+      <div className="w-full max-w-[1100px] h-[64px] flex justify-between items-center px-[16px] mb-4">
         <button className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-muted)] border border-[var(--border)] rounded-full bg-white hover:bg-gray-50 transition-colors">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path
+              d="M1 3h12M3 7h8M5 11h4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
           </svg>
           Filter By
         </button>
