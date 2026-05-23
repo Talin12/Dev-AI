@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function EmptyState() {
+// Removed the 'default' keyword here to fix the import error!
+export function EmptyState() {
   return (
     <div className="w-full min-h-[60vh] flex flex-col items-center justify-center px-4">
       
-      // STRICT INNER CONTAINER: Matches Figma's max-width and gap structure.
       <div className="w-full max-w-[486px] flex flex-col items-center text-center gap-8">
         
-        {/* Graphic Placeholder: Ensure you have an empty state graphic in your public folder */}
+        {/* Graphic Placeholder */}
         <div className="w-[300px] h-[300px] relative flex items-center justify-center mb-[-16px]">
           <Image 
             src="/file.svg" 

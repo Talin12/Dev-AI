@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AssignmentCard } from "./AssignmentCard";
-import EmptyState from "./EmptyState";
+import {EmptyState} from "./EmptyState";
 import { deleteAssignment } from "../../lib/api";
 import type { Assignment } from "../../types";
 
