@@ -11,11 +11,15 @@ const navItems = [
   { label: "My Library", href: "/library", icon: Library },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[260px] min-h-screen bg-white border-r border-[var(--border)] flex flex-col shrink-0">
+    <aside className="w-[260px] h-full bg-white border-r border-[var(--border)] flex flex-col shrink-0">
       <div className="px-5 py-5">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center">
@@ -26,6 +30,7 @@ export function Sidebar() {
 
         <Link
           href="/assignments/create"
+          onClick={onClose}
           className="flex items-center gap-2 w-full px-4 py-2.5 rounded-full bg-[var(--text-primary)] text-white text-sm font-medium hover:bg-gray-800 transition-colors mb-6"
         >
           <PlusCircle size={16} />
@@ -42,6 +47,7 @@ export function Sidebar() {
               <Link
                 key={item.label}
                 href={item.href}
+                onClick={onClose}
                 className={`relative flex items-center gap-3 px-6 py-3.5 text-sm transition-colors ${
                   isActive
                     ? "text-[var(--primary)] font-medium"
@@ -65,6 +71,7 @@ export function Sidebar() {
       <div className="mt-auto px-5 py-4 border-t border-[var(--border)]">
         <Link
           href="/settings"
+          onClick={onClose}
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--text-muted)] hover:bg-gray-50 hover:text-[var(--text-primary)] transition-colors"
         >
           <Settings size={17} />

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
-import { ShellClient } from "../components/layout/ShellClient";
+import { AppShell } from "../components/layout/AppShell";
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-bricolage",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} overflow-x-hidden`}>
-        <ShellClient>{children}</ShellClient>
+      <body className={`${bricolage.className} ${bricolage.variable}`}>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
