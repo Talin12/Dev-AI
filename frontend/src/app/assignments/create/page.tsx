@@ -123,7 +123,7 @@ export default function CreateAssignmentPage() {
         {currentStep === 1 ? <StepOne /> : <StepTwo />}
 
         {errors.length > 0 && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl">
             {errors.map((e, i) => (
               <p key={i} className="text-sm text-red-600">
                 {e}
@@ -138,13 +138,13 @@ export default function CreateAssignmentPage() {
           <>
             <button
               onClick={() => router.push("/assignments")}
-              className="px-5 py-2.5 text-sm font-medium text-[var(--text-muted)] border border-[var(--border)] rounded-full hover:bg-gray-50 transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] px-6 py-3 font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleNext}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[var(--text-primary)] text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"
+              className="flex items-center gap-2 px-8 py-3 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] transition-colors"
             >
               Next
               <ArrowRight size={16} />
@@ -157,7 +157,7 @@ export default function CreateAssignmentPage() {
                 setErrors([]);
                 setStep(1);
               }}
-              className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-[var(--text-muted)] border border-[var(--border)] rounded-full hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] px-6 py-3 font-medium transition-colors"
             >
               <ArrowLeft size={16} />
               Previous
@@ -165,7 +165,7 @@ export default function CreateAssignmentPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex items-center gap-2 px-6 py-2.5 bg-[var(--text-primary)] text-white rounded-full text-sm font-medium hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-2 px-8 py-3 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
               {isSubmitting ? (
                 <>

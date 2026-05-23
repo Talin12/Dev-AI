@@ -19,12 +19,12 @@ export function StepOne() {
     difficultyDistribution.hard;
 
   const inputClass =
-    "w-full px-4 py-2.5 rounded-lg border border-[var(--border)] text-sm text-[var(--text-primary)] bg-white focus:outline-none focus:ring-2 focus:ring-gray-300 transition-shadow";
+    "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all";
 
-  const labelClass = "block text-sm font-medium text-[var(--text-primary)] mb-1.5";
+  const labelClass = "text-sm font-medium text-[var(--text-primary)] mb-1.5 block";
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
         <label className={labelClass}>Assignment Title</label>
         <input
@@ -36,7 +36,7 @@ export function StepOne() {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label className={labelClass}>Subject</label>
           <input
@@ -71,13 +71,13 @@ export function StepOne() {
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-2">
           <label className={labelClass + " mb-0"}>Difficulty Distribution</label>
           <span
-            className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+            className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${
               diffTotal === 100
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-600"
+                ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                : "bg-red-50 text-red-500 border border-red-100"
             }`}
           >
             {diffTotal}/100
@@ -93,7 +93,7 @@ export function StepOne() {
         <div className="grid grid-cols-3 gap-4">
           {(["easy", "medium", "hard"] as const).map((level) => (
             <div key={level}>
-              <label className="block text-xs font-medium text-[var(--text-muted)] mb-1.5 capitalize">
+              <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block capitalize">
                 {level} (%)
               </label>
               <input
