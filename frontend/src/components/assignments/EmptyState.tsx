@@ -1,32 +1,41 @@
 import Link from "next/link";
-import { FileX } from "lucide-react";
+import Image from "next/image";
 
-export function EmptyState() {
+export default function EmptyState() {
   return (
-    <div className="max-w-[1100px] min-h-[678px] flex flex-col justify-center items-center mx-auto">
-      <div className="w-full max-w-[486px] flex flex-col items-center gap-[32px]">
-        <div className="w-[300px] h-[300px] flex items-center justify-center">
-          <FileX className="w-full h-full text-gray-200" strokeWidth={0.8} />
+    <div className="w-full min-h-[60vh] flex flex-col items-center justify-center px-4">
+      
+      // STRICT INNER CONTAINER: Matches Figma's max-width and gap structure.
+      <div className="w-full max-w-[486px] flex flex-col items-center text-center gap-8">
+        
+        {/* Graphic Placeholder: Ensure you have an empty state graphic in your public folder */}
+        <div className="w-[300px] h-[300px] relative flex items-center justify-center mb-[-16px]">
+          <Image 
+            src="/file.svg" 
+            alt="No assignments" 
+            width={120} 
+            height={120} 
+            className="opacity-50"
+          />
         </div>
 
-        <div className="flex flex-col items-center gap-3 text-center">
-          <h2 className="text-xl font-semibold text-[var(--text-primary)]">
+        {/* Text Block */}
+        <div className="flex flex-col items-center gap-3">
+          <h2 className="font-['Bricolage_Grotesque'] text-[20px] font-[700] leading-[1.4] tracking-[-0.04em] text-[var(--text-primary)]">
             No assignments yet
           </h2>
-          <p className="text-sm text-[var(--text-muted)] max-w-md leading-relaxed">
-            Create your first assignment to start collecting and grading student
-            submissions. You can set up rubrics, define marking criteria, and let AI
-            assist with grading.
+          <p className="font-['Bricolage_Grotesque'] text-[16px] font-[400] leading-[1.4] tracking-[-0.04em] text-[#666666] max-w-[486px]">
+            Create your first assignment to start collecting and grading student submissions. You can set up rubrics, define marking criteria, and let AI assist with grading.
           </p>
         </div>
 
-        <Link
+        {/* CTA Button with exact Figma styling and gradient border */}
+        <Link 
           href="/assignments/create"
-          className="w-[277px] h-[46px] px-[24px] py-[12px] gap-[4px] bg-[#181818] text-white rounded-lg font-medium inline-flex items-center justify-center transition-all duration-300 ease-out hover:bg-[#2a2a2a]"
+          className="flex items-center justify-center px-[24px] py-[12px] h-[46px] min-w-[277px] bg-[#181818] text-white rounded-lg hover:bg-black transition-all duration-300 ease-out font-medium text-sm"
           style={{
             border: "1.5px solid transparent",
-            borderImage:
-              "linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(102,102,102,0) 100%) 1",
+            borderImage: "linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(102, 102, 102, 0) 100%) 1"
           }}
         >
           + Create Your First Assignment
