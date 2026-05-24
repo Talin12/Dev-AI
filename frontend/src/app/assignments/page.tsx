@@ -15,9 +15,9 @@ export default function AssignmentsPage() {
   return (
     <div className="w-full max-w-[1100px] mx-auto flex flex-col gap-[12px]">
       <div className="w-full h-[50px] px-[8px] flex items-center gap-[16px]">
-        <div className="w-[12px] h-[12px] shrink-0 rounded-full bg-[#4BC26D] border-[4px] border-[#4BC26D66] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F] relative top-[-8px]" />
+        <div className="w-[12px] h-[12px] shrink-0 rounded-full bg-[#4BC26D] border-[4px] border-[#4BC26D66] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]" />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-center">
           <h1 className="font-['Bricolage_Grotesque'] font-[700] text-[20px] leading-[1.4] tracking-[-0.04em] text-[#303030]">
             Assignments
           </h1>
