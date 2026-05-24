@@ -14,24 +14,29 @@ export function AIMessageBanner({ assignmentId, assignmentTitle }: AIMessageBann
   };
 
   return (
-    <div className="bg-[#111111] rounded-2xl px-6 py-4 mb-6 flex items-center justify-between gap-4">
-      <div className="flex items-start gap-3">
-        <Sparkles size={18} className="text-yellow-400 shrink-0 mt-0.5" />
+    <div className="bg-[#181818CC] px-[40px] py-[28px] flex items-center justify-between gap-4">
+      <div className="flex items-start gap-[12px]">
+        <div className="flex gap-[4px] mt-1 shrink-0">
+          <Sparkles size={16} className="text-white" fill="white" />
+          <Sparkles size={10} className="text-white/60 mt-1" fill="currentColor" />
+        </div>
         <div>
-          <p className="text-white text-sm font-medium">AI-Generated Question Paper</p>
-          <p className="text-gray-400 text-xs mt-0.5">
+          <p className="font-['Bricolage_Grotesque'] font-[700] text-[20px] text-white leading-tight">
+            AI-Generated Question Paper
+          </p>
+          <p className="font-['Bricolage_Grotesque'] font-[400] text-[14px] text-white/60 mt-[4px]">
             Here is your customized question paper for{" "}
-            <span className="text-gray-200">{assignmentTitle}</span>
+            <span className="text-white font-[500]">{assignmentTitle}</span>
           </p>
         </div>
       </div>
 
       <button
         onClick={handleDownload}
-        className="flex items-center gap-2 px-4 py-2 bg-white text-[#111111] rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors shrink-0"
+        className="h-[44px] px-[20px] rounded-[22px] bg-white text-[#181818] font-['Bricolage_Grotesque'] font-[600] text-[15px] flex items-center gap-[8px] hover:bg-gray-100 transition-colors shrink-0"
       >
         <Download size={15} />
-        Download as PDF
+        Download PDF
       </button>
     </div>
   );

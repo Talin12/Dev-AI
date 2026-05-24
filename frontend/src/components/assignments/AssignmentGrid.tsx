@@ -44,7 +44,7 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
 
   if (isLoading) {
     return (
-      <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[16px] place-items-center lg:place-items-start">
+      <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[12px]">
         {Array.from({ length: 6 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
@@ -57,7 +57,7 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
   }
 
   return (
-    <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[16px] place-items-center lg:place-items-start">
+    <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[12px]">
       {assignments.map((assignment) => (
         <AssignmentCard
           key={assignment.id || (assignment as Assignment & { _id: string })._id}

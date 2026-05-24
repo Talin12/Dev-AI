@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { RefreshCw, Download } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import type { QuestionPaper, Assignment } from "../../types";
 import { PaperSection } from "./PaperSection";
-import { regenerateAssignment, downloadPDFUrl } from "../../lib/api";
+import { regenerateAssignment } from "../../lib/api";
 
 interface ExamPaperProps {
   paper: QuestionPaper;
   assignment: Assignment;
-  onRegenerate?: () => void; // parent switches view back to GeneratingLoader
+  onRegenerate?: () => void;
 }
 
 export function ExamPaper({ paper, assignment, onRegenerate }: ExamPaperProps) {
@@ -17,7 +17,6 @@ export function ExamPaper({ paper, assignment, onRegenerate }: ExamPaperProps) {
   const [error, setError] = useState<string | null>(null);
 
   const allQuestions = paper.sections.flatMap((s) => s.questions);
-
   const assignmentId = assignment.id || (assignment as Assignment & { _id: string })._id;
 
   async function handleRegenerate() {
@@ -25,8 +24,6 @@ export function ExamPaper({ paper, assignment, onRegenerate }: ExamPaperProps) {
       setIsRegenerating(true);
       setError(null);
       await regenerateAssignment(assignmentId);
-      // Let the parent swap to the loading view; the WebSocket will
-      // drive the rest of the status updates from here.
       onRegenerate?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Regeneration failed");
@@ -35,47 +32,23 @@ export function ExamPaper({ paper, assignment, onRegenerate }: ExamPaperProps) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4">
-
-      {/* ── Action bar ── */}
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <p className="text-sm text-[var(--text-muted)]">
-          {paper.sections.length} section{paper.sections.length !== 1 ? "s" : ""} ·{" "}
-          {allQuestions.length} question{allQuestions.length !== 1 ? "s" : ""} ·{" "}
-          {paper.totalMarks} marks
-        </p>
-
-        <div className="flex items-center gap-2">
-          {error && (
-            <span className="text-xs text-red-500">{error}</span>
-          )}
-
-          <button
-            onClick={handleRegenerate}
-            disabled={isRegenerating}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[var(--border)] bg-white text-sm font-medium text-[var(--text-primary)] hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <RefreshCw
-              size={15}
-              className={isRegenerating ? "animate-spin" : ""}
-            />
-            {isRegenerating ? "Regenerating…" : "Regenerate"}
-          </button>
-
-          <a
-            href={`/api/assignments/${assignmentId}/download`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] transition-colors"
-          >
-            <Download size={15} />
-            Download PDF
-          </a>
-        </div>
+    <div className="px-[40px] pt-[40px] pb-[56px]">
+      {/* Action row */}
+      <div className="flex items-center justify-end gap-[12px] mb-[32px]">
+        {error && <span className="text-xs text-red-500 mr-auto">{error}</span>}
+        <button
+          onClick={handleRegenerate}
+          disabled={isRegenerating}
+          className="h-[40px] px-[20px] rounded-[20px] border border-[#E5E5E5] bg-white font-['Bricolage_Grotesque'] font-[500] text-[14px] text-[#303030] flex items-center gap-[8px] hover:bg-[#F6F6F6] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          <RefreshCw size={14} className={isRegenerating ? "animate-spin" : ""} />
+          {isRegenerating ? "Regenerating…" : "Regenerate"}
+        </button>
       </div>
 
-      {/* ── Paper ── */}
-      <div className="bg-white shadow-lg rounded-2xl p-10 text-black font-serif">
+      {/* Paper body */}
+      <div className="text-black font-serif">
+        {/* Paper header */}
         <div className="text-center border-b-2 border-gray-900 pb-5 mb-6">
           <h1 className="text-2xl font-bold tracking-wide">{paper.schoolName}</h1>
           <p className="text-base mt-1">Subject: {paper.subject}</p>

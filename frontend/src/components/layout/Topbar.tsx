@@ -15,7 +15,7 @@ export function Topbar({ onMenuToggle: _ }: TopbarProps) {
       {/* Back Arrow — w-[40px] */}
       <Link
         href="/assignments"
-        className="w-[40px] h-[40px] shrink-0 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors"
+        className="w-[40px] h-[40px] shrink-0 flex items-center justify-center rounded-full bg-white hover:bg-gray-50 transition-colors"
         aria-label="Back"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#303030" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -31,11 +31,11 @@ export function Topbar({ onMenuToggle: _ }: TopbarProps) {
 
       {/* Bell — w-[36px] */}
       <button
-        className="w-[36px] h-[36px] shrink-0 rounded-[100px] flex items-center justify-center hover:bg-black/5 transition-colors relative"
+        className="w-[36px] h-[36px] shrink-0 rounded-[100px] flex items-center justify-center bg-[#F6F6F6] hover:bg-[#ECECEC] transition-colors relative"
         aria-label="Notifications"
       >
         <Bell size={20} strokeWidth={2} className="text-[#303030]" />
-        <span className="absolute top-[4px] right-[4px] h-2 w-2 rounded-full bg-[#ff4b25]" />
+        <span className="absolute top-[4px] right-[4px] h-2 w-2 rounded-full bg-[#FF5623]" />
       </button>
 
       {/* Profile Chip — w-[157px] */}

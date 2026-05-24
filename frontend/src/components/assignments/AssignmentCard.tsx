@@ -34,7 +34,7 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
   };
 
   return (
-    <div className="relative w-full max-w-[542px] h-[162px] p-[24px] bg-white border border-[var(--border)] rounded-2xl flex flex-col justify-between transition-all hover:shadow-md">
+    <div className="relative w-full max-w-[542px] h-[162px] p-[24px] bg-white border border-[var(--border)] rounded-[24px] flex flex-col justify-between transition-all hover:shadow-md">
       <div className="w-full flex justify-between items-start">
         <h3 className="font-['Bricolage_Grotesque'] text-[24px] font-[800] leading-[1.2] tracking-[-0.04em] text-[#303030] line-clamp-1 flex-1 pr-3">
           {assignment.title}

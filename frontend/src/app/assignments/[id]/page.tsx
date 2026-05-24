@@ -129,7 +129,7 @@ export default function AssignmentOutputPage() {
 
   if (generationStatus === "completed" && paper && assignment) {
     return (
-      <div>
+      <div className="w-full bg-white rounded-[32px] overflow-hidden shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]">
         <AIMessageBanner
           assignmentId={id}
           assignmentTitle={assignment.title}
