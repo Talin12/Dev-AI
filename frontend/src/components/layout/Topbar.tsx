@@ -10,7 +10,7 @@ interface TopbarProps {
 
 export function Topbar({ onMenuToggle }: TopbarProps) {
   return (
-    <header className="mb-2 flex h-14 shrink-0 items-center justify-between rounded-[16px] bg-white/75 px-6">
+    <header className="w-full h-[56px] shrink-0 bg-[#FFFFFFBF] backdrop-blur-md rounded-[16px] pl-[24px] pr-[12px] flex items-center gap-[10px]">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuToggle}

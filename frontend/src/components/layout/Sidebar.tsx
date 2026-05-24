@@ -30,15 +30,7 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside
-      className={`
-        h-full w-[304px] shrink-0 overflow-hidden rounded-[14px]
-        bg-white/95 shadow-[0_32px_48px_rgba(0,0,0,0.20),0_16px_48px_rgba(0,0,0,0.12)]
-        transition-transform duration-200 ease-in-out
-        ${isOpen ? "translate-x-0" : ""}
-      `}
-    >
-      <div className="flex h-full flex-col px-[23px] py-6">
+    <aside className="w-[304px] h-[820px] shrink-0 bg-[#FFFFFF] rounded-[16px] p-[24px] flex flex-col justify-between shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]">
         <Link href="/assignments" onClick={onClose} className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,#e56820_0%,#d45e3e_100%)] shadow-[0_12px_20px_rgba(197,53,10,0.25)]">
             <span className="text-[28px] font-black leading-none text-white">V</span>
@@ -107,7 +99,6 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             </div>
           </div>
         </div>
-      </div>
     </aside>
   );
 }
