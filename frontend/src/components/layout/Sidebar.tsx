@@ -1,89 +1,110 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PlusCircle, BookOpen, Users, Library, Settings } from "lucide-react";
+import {
+  BookOpen,
+  Clock3,
+  FileText,
+  FolderKanban,
+  Grid2X2,
+  Settings,
+  Sparkles,
+} from "lucide-react";
 
 const navItems = [
-  { label: "Home", href: "/assignments", icon: LayoutDashboard },
-  { label: "My Groups", href: "/groups", icon: Users },
-  { label: "Assignments", href: "/assignments", icon: BookOpen },
-  { label: "My Library", href: "/library", icon: Library },
+  { label: "Home", href: "/assignments", icon: Grid2X2 },
+  { label: "My Groups", href: "/groups", icon: FolderKanban },
+  { label: "Assignments", href: "/assignments", icon: FileText },
+  { label: "AI Teacher's Toolkit", href: "/library", icon: BookOpen },
+  { label: "My Library", href: "/library", icon: Clock3 },
 ];
 
 interface SidebarProps {
+  isOpen?: boolean;
   onClose?: () => void;
 }
 
-export function Sidebar({ onClose }: SidebarProps) {
+export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[260px] h-full bg-white border-r border-[var(--border)] flex flex-col shrink-0">
-      <div className="px-5 py-5">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center">
-            <span className="text-white font-bold text-sm">V</span>
+    <aside
+      className={`
+        h-full w-[304px] shrink-0 overflow-hidden rounded-[14px]
+        bg-white/95 shadow-[0_32px_48px_rgba(0,0,0,0.20),0_16px_48px_rgba(0,0,0,0.12)]
+        transition-transform duration-200 ease-in-out
+        ${isOpen ? "translate-x-0" : ""}
+      `}
+    >
+      <div className="flex h-full flex-col px-[23px] py-6">
+        <Link href="/assignments" onClick={onClose} className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,#e56820_0%,#d45e3e_100%)] shadow-[0_12px_20px_rgba(197,53,10,0.25)]">
+            <span className="text-[28px] font-black leading-none text-white">V</span>
           </div>
-          <span className="text-xl font-bold text-[var(--text-primary)]">VedaAI</span>
-        </div>
+          <span className="text-[26px] font-extrabold leading-none tracking-[-0.04em] text-[#303030]">
+            VedaAI
+          </span>
+        </Link>
 
         <Link
           href="/assignments/create"
           onClick={onClose}
-          className="flex items-center gap-2 w-full px-4 py-2.5 rounded-full bg-[var(--text-primary)] text-white text-sm font-medium hover:bg-gray-800 transition-colors mb-6"
+          className="mt-[58px] flex h-[48px] w-full items-center justify-center gap-2 rounded-[24px] border-[3px] border-[#e56845] bg-[#303030] px-5 text-[16px] font-medium leading-none text-white shadow-[0_24px_36px_rgba(255,255,255,0.16),inset_0_0_18px_rgba(255,255,255,0.20)] transition-colors hover:bg-[#242424]"
         >
-          <PlusCircle size={16} />
+          <Sparkles size={17} fill="currentColor" strokeWidth={1.8} />
           Create Assignment
         </Link>
 
-        <nav className="flex flex-col gap-0.5">
+        <nav className="mt-[58px] flex flex-col gap-3">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive =
-              pathname === item.href || pathname.startsWith(item.href + "/");
+              item.label === "Assignments"
+                ? pathname === "/assignments" || pathname.startsWith("/assignments/")
+                : pathname === item.href && item.label !== "Home";
 
             return (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={onClose}
-                className={`relative flex items-center gap-3 px-6 py-3.5 text-sm transition-colors ${
+                className={`flex h-[38px] items-center gap-3 rounded-[7px] px-3 text-[16px] font-medium tracking-[-0.04em] transition-colors ${
                   isActive
-                    ? "text-[var(--primary)] font-medium"
-                    : "text-[var(--text-muted)] hover:bg-gray-50 hover:text-[var(--text-primary)]"
+                    ? "bg-[#f0f0f0] text-[#303030]"
+                    : "text-[#7e7e7e] hover:bg-[#f6f6f6] hover:text-[#303030]"
                 }`}
               >
-                <Icon
-                  size={17}
-                  className={isActive ? "text-[var(--primary)]" : ""}
-                />
+                <Icon size={20} strokeWidth={2} />
                 {item.label}
-                {isActive && (
-                  <span className="absolute right-0 top-0 bottom-0 w-1 bg-[var(--primary)] rounded-l-full" />
-                )}
               </Link>
             );
           })}
         </nav>
-      </div>
 
-      <div className="mt-auto px-5 py-4 border-t border-[var(--border)]">
-        <Link
-          href="/settings"
-          onClick={onClose}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--text-muted)] hover:bg-gray-50 hover:text-[var(--text-primary)] transition-colors"
-        >
-          <Settings size={17} />
-          Settings
-        </Link>
-        <div className="flex items-center gap-3 mt-2 p-3 bg-gray-50 rounded-xl">
-          <div className="w-9 h-9 rounded-full bg-orange-200 flex items-center justify-center text-sm font-semibold text-orange-700">
-            D
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-[var(--text-primary)]">Delhi Public School</span>
-            <span className="text-xs text-[var(--text-muted)]">Bokaro Steel City</span>
+        <div className="mt-auto">
+          <Link
+            href="/settings"
+            onClick={onClose}
+            className="flex h-[38px] items-center gap-3 rounded-[7px] px-3 text-[16px] font-medium tracking-[-0.04em] text-[#7e7e7e] transition-colors hover:bg-[#f6f6f6] hover:text-[#303030]"
+          >
+            <Settings size={18} />
+            Settings
+          </Link>
+
+          <div className="mt-[22px] flex h-20 items-center gap-3 rounded-[14px] bg-[#f0f0f0] px-3">
+            <div className="relative h-14 w-14 overflow-hidden rounded-full bg-[#ffdcd2]">
+              <Image src="/veda-avatar.jpg" alt="" fill className="object-cover" sizes="56px" />
+            </div>
+            <div className="min-w-0">
+              <div className="truncate text-[16px] font-bold leading-[1.4] tracking-[-0.04em] text-[#303030]">
+                Delhi Public School
+              </div>
+              <div className="text-[14px] font-medium leading-[1.4] tracking-[-0.04em] text-[#595959]">
+                Bokaro Steel City
+              </div>
+            </div>
           </div>
         </div>
       </div>

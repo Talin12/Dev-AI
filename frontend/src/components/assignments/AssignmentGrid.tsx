@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AssignmentCard } from "./AssignmentCard";
-import {EmptyState} from "./EmptyState";
+import { EmptyState } from "./EmptyState";
 import { deleteAssignment } from "../../lib/api";
 import type { Assignment } from "../../types";
 
@@ -42,7 +42,7 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
@@ -55,7 +55,7 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
       {assignments.map((assignment) => (
         <AssignmentCard
           key={assignment.id || (assignment as Assignment & { _id: string })._id}
