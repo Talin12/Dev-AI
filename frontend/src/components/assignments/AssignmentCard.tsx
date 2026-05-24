@@ -62,7 +62,6 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
                 >
                   View Assignment
                 </Link>
-
                 <button
                   onClick={handleDelete}
                   className="w-[124px] h-[32px] px-[8px] flex items-center bg-[#F6F6F6] rounded-[8px] font-['Bricolage_Grotesque'] text-[14px] font-[500] leading-[1.4] tracking-[-0.04em] text-[#C53535] hover:bg-red-50 transition-colors"
@@ -77,12 +76,12 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
 
       <div className="w-full flex justify-between items-center">
         <div className="text-[16px] leading-[1.2] tracking-[-0.04em] text-[#00000080]">
-          <span className="font-[800]">Assigned on : </span>
-          <span className="font-[400]">{formattedDate}</span>
+          <span className="font-['Bricolage_Grotesque'] font-[800]">Assigned on : </span>
+          <span className="font-['Bricolage_Grotesque'] font-[400]">{formattedDate}</span>
         </div>
         <div className="text-[16px] leading-[1.2] tracking-[-0.04em] text-[#00000080]">
-          <span className="font-[800]">Due : </span>
-          <span className="font-[400]">{dueDateFormatted}</span>
+          <span className="font-['Bricolage_Grotesque'] font-[800]">Due : </span>
+          <span className="font-['Bricolage_Grotesque'] font-[400]">{dueDateFormatted}</span>
         </div>
       </div>
     </div>

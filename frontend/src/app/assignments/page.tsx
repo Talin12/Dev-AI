@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { useAssignmentStore } from "../../store/assignmentStore";
 import { AssignmentGrid } from "../../components/assignments/AssignmentGrid";
 
@@ -12,7 +13,37 @@ export default function AssignmentsPage() {
   }, [fetchAssignments]);
 
   return (
-    <div className="h-full">
+    <div className="w-full max-w-[1100px] mx-auto flex flex-col gap-[12px]">
+      <div className="w-full h-[50px] px-[8px] flex flex-col justify-center">
+        <div className="flex items-center gap-[12px]">
+          <h1 className="font-['Bricolage_Grotesque'] font-[700] text-[20px] leading-[1.4] tracking-[-0.04em] text-[#303030]">
+            Assignments
+          </h1>
+          <div className="w-[12px] h-[12px] rounded-full bg-[#4BC26D] border-[4px] border-[#4BC26D66] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]" />
+        </div>
+        <p className="font-['Bricolage_Grotesque'] font-[400] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#5E5E5E8C] mt-1">
+          Manage and create assignments for your classes.
+        </p>
+      </div>
+
+      <div className="w-full h-[64px] bg-[#FFFFFF] px-[16px] rounded-2xl flex items-center justify-between shadow-sm">
+        <button className="flex items-center gap-[24px]">
+          <span className="font-['Bricolage_Grotesque'] font-[700] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#A9A9A9]">
+            Filter By
+          </span>
+          <SlidersHorizontal className="w-[20px] h-[20px] text-[#A9A9A9]" />
+        </button>
+
+        <div className="w-[380px] h-[44px] flex items-center gap-[12px] px-[16px] border border-gray-200 rounded-full">
+          <Search className="w-[20px] h-[20px] text-[#A9A9A9] shrink-0" />
+          <input
+            type="text"
+            placeholder="Search Assignment"
+            className="bg-transparent outline-none w-full font-['Bricolage_Grotesque'] font-[700] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#A9A9A9] placeholder-[#A9A9A9]"
+          />
+        </div>
+      </div>
+
       <AssignmentGrid assignments={assignments} isLoading={isLoading} />
     </div>
   );
