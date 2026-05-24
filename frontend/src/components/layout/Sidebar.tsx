@@ -12,6 +12,7 @@ import {
   Settings,
   Sparkles,
 } from "lucide-react";
+import { useAssignmentStore } from "../../store/assignmentStore";
 
 const navItems = [
   { label: "Home", href: "/assignments", icon: Grid2X2 },
@@ -28,6 +29,8 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const { assignments } = useAssignmentStore();
+  const assignmentCount = assignments.length;
 
   return (
     <aside className="w-[304px] h-[calc(100vh-24px)] sticky top-[12px] shrink-0 bg-[#FFFFFF] rounded-[16px] p-[24px] flex flex-col justify-between shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]">
@@ -69,7 +72,12 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                 }`}
               >
                 <Icon size={20} strokeWidth={2} />
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {item.label === "Assignments" && assignmentCount > 0 && (
+                  <span className="ml-auto h-[20px] min-w-[28px] px-[6px] rounded-full bg-[#E56845] text-white font-['Bricolage_Grotesque'] font-[700] text-[12px] flex items-center justify-center leading-none">
+                    {assignmentCount}
+                  </span>
+                )}
               </Link>
             );
           })}

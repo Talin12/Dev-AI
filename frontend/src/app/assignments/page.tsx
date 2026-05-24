@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { Search } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useAssignmentStore } from "../../store/assignmentStore";
 import { AssignmentGrid } from "../../components/assignments/AssignmentGrid";
 
@@ -28,17 +29,25 @@ export default function AssignmentsPage() {
       </div>
 
       <div className="w-full h-[64px] bg-[#FFFFFF] px-[16px] rounded-2xl flex items-center justify-between shadow-sm">
-        <button className="flex items-center gap-[24px]">
+        <button className="flex items-center gap-[8px]">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path d="M2 3.5h12M4 8h8M6.5 12.5h3" stroke="#A9A9A9" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
           <span className="font-['Bricolage_Grotesque'] font-[700] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#A9A9A9]">
             Filter By
           </span>
           <svg
-            width="20"
-            height="20"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke="#A9A9A9"
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
@@ -57,6 +66,15 @@ export default function AssignmentsPage() {
       </div>
 
       <AssignmentGrid assignments={assignments} isLoading={isLoading} />
+
+      <Link
+        href="/assignments/create"
+        className="fixed bottom-[24px] z-50 flex items-center gap-[8px] h-[48px] px-[24px] bg-[#181818] text-white rounded-full font-['Bricolage_Grotesque'] font-[600] text-[15px] shadow-[0_8px_32px_rgba(0,0,0,0.24)] hover:bg-[#2a2a2a] transition-colors"
+        style={{ left: "calc(50% + 157px)", transform: "translateX(-50%)" }}
+      >
+        <Sparkles size={15} fill="currentColor" strokeWidth={1.5} />
+        Create Assignment
+      </Link>
     </div>
   );
 }
