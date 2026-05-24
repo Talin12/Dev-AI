@@ -59,7 +59,7 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
   };
 
   return (
-    <div className="w-full lg:w-[542px] min-h-[162px] flex flex-col justify-between bg-white border border-[var(--border)] rounded-2xl p-5 hover:shadow-md transition-all">
+    <div className="w-full max-w-[542px] min-h-[162px] flex flex-col justify-between bg-white border border-[var(--border)] rounded-2xl p-5 hover:shadow-md transition-all">
       <div className="flex items-start justify-between">
         <div className="flex-1 pr-3">
           <h3 className="text-[24px] font-[800] leading-[1.2] tracking-[-0.04em] text-[var(--text-primary)]">
@@ -125,7 +125,7 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {assignment.status === "completed" && (
             <a
               href={downloadPDFUrl(assignmentId)}

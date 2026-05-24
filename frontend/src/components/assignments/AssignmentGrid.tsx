@@ -13,8 +13,8 @@ interface AssignmentGridProps {
 
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-xl border border-[var(--border)] p-5 animate-pulse">
-      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+    <div className="w-full max-w-[542px] min-h-[162px] bg-white rounded-2xl border border-[var(--border)] p-5 animate-pulse">
+      <div className="h-6 bg-gray-200 rounded w-3/4 mb-2" />
       <div className="h-3 bg-gray-100 rounded w-1/2 mb-4" />
       <div className="h-5 bg-gray-100 rounded-full w-20 mb-4" />
       <div className="border-t border-[var(--border)] pt-4 flex justify-between">
@@ -31,10 +31,12 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
   const handleDelete = async (id: string) => {
     try {
       await deleteAssignment(id);
-      setAssignments((prev) => prev.filter((a) => {
-        const aId = a.id || (a as Assignment & { _id: string })._id;
-        return aId !== id;
-      }));
+      setAssignments((prev) =>
+        prev.filter((a) => {
+          const aId = a.id || (a as Assignment & { _id: string })._id;
+          return aId !== id;
+        })
+      );
     } catch (err) {
       alert(err instanceof Error ? err.message : "Failed to delete assignment");
     }
@@ -42,7 +44,7 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+      <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[16px] place-items-center lg:place-items-start">
         {Array.from({ length: 6 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
@@ -55,7 +57,7 @@ export function AssignmentGrid({ assignments: initialAssignments, isLoading }: A
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+    <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[16px] place-items-center lg:place-items-start">
       {assignments.map((assignment) => (
         <AssignmentCard
           key={assignment.id || (assignment as Assignment & { _id: string })._id}
