@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search } from "lucide-react";
 import { useAssignmentStore } from "../../store/assignmentStore";
 import { AssignmentGrid } from "../../components/assignments/AssignmentGrid";
 
@@ -14,16 +14,17 @@ export default function AssignmentsPage() {
 
   return (
     <div className="w-full max-w-[1100px] mx-auto flex flex-col gap-[12px]">
-      <div className="w-full h-[50px] px-[8px] flex flex-col justify-center">
-        <div className="flex items-center gap-[12px]">
+      <div className="w-full h-[50px] px-[8px] flex items-center gap-[16px]">
+        <div className="w-[12px] h-[12px] shrink-0 rounded-full bg-[#4BC26D] border-[4px] border-[#4BC26D66] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F] relative top-[-8px]" />
+
+        <div className="flex flex-col">
           <h1 className="font-['Bricolage_Grotesque'] font-[700] text-[20px] leading-[1.4] tracking-[-0.04em] text-[#303030]">
             Assignments
           </h1>
-          <div className="w-[12px] h-[12px] rounded-full bg-[#4BC26D] border-[4px] border-[#4BC26D66] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]" />
+          <p className="font-['Bricolage_Grotesque'] font-[400] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#5E5E5E8C]">
+            Manage and create assignments for your classes.
+          </p>
         </div>
-        <p className="font-['Bricolage_Grotesque'] font-[400] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#5E5E5E8C] mt-1">
-          Manage and create assignments for your classes.
-        </p>
       </div>
 
       <div className="w-full h-[64px] bg-[#FFFFFF] px-[16px] rounded-2xl flex items-center justify-between shadow-sm">
@@ -31,7 +32,18 @@ export default function AssignmentsPage() {
           <span className="font-['Bricolage_Grotesque'] font-[700] text-[14px] leading-[1.4] tracking-[-0.04em] text-[#A9A9A9]">
             Filter By
           </span>
-          <SlidersHorizontal className="w-[20px] h-[20px] text-[#A9A9A9]" />
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#A9A9A9"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </button>
 
         <div className="w-[380px] h-[44px] flex items-center gap-[12px] px-[16px] border border-gray-200 rounded-full">

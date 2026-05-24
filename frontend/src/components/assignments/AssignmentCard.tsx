@@ -75,13 +75,21 @@ export function AssignmentCard({ assignment, onDelete }: AssignmentCardProps) {
       </div>
 
       <div className="w-full flex justify-between items-center">
-        <div className="text-[16px] leading-[1.2] tracking-[-0.04em] text-[#00000080]">
-          <span className="font-['Bricolage_Grotesque'] font-[800]">Assigned on : </span>
-          <span className="font-['Bricolage_Grotesque'] font-[400]">{formattedDate}</span>
+        <div className="text-[16px] leading-[1.2] tracking-[-0.04em]">
+          <span className="font-['Bricolage_Grotesque'] font-[800] text-[#000000]">
+            Assigned on :{" "}
+          </span>
+          <span className="font-['Bricolage_Grotesque'] font-[400] text-[#00000080]">
+            {formattedDate}
+          </span>
         </div>
-        <div className="text-[16px] leading-[1.2] tracking-[-0.04em] text-[#00000080]">
-          <span className="font-['Bricolage_Grotesque'] font-[800]">Due : </span>
-          <span className="font-['Bricolage_Grotesque'] font-[400]">{dueDateFormatted}</span>
+        <div className="text-[16px] leading-[1.2] tracking-[-0.04em]">
+          <span className="font-['Bricolage_Grotesque'] font-[800] text-[#000000]">
+            Due :{" "}
+          </span>
+          <span className="font-['Bricolage_Grotesque'] font-[400] text-[#00000080]">
+            {dueDateFormatted}
+          </span>
         </div>
       </div>
     </div>
