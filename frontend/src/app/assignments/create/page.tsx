@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { useGenerationStore } from "../../../store/generationStore";
 import { createAssignment } from "../../../lib/api";
 import { FormProgressBar } from "../../../components/create/FormProgressBar";
@@ -98,56 +98,35 @@ export default function CreateAssignmentPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-[var(--text-primary)]">Create Assignment</h1>
-        <p className="text-sm text-[var(--text-muted)] mt-0.5">
-          Set up a new assignment for your students
-        </p>
-      </div>
-
+    <div className="w-full flex flex-col gap-[32px] bg-[linear-gradient(180deg,#EEEEEE_0%,#DADADA_100%)] min-h-screen rounded-[16px] p-[40px]">
       <FormProgressBar currentStep={currentStep} />
 
-      <div className="bg-white rounded-2xl border border-[var(--border)] p-6 mb-6">
-        <div className="mb-5">
-          <h2 className="text-base font-semibold text-[var(--text-primary)]">
-            {currentStep === 1 ? "Assignment Details" : "Structure & Upload"}
-          </h2>
-          <p className="text-xs text-[var(--text-muted)] mt-0.5">
-            {currentStep === 1
-              ? "Basic information about your assignment"
-              : "Define the question structure and upload any reference material"}
-          </p>
+      {currentStep === 1 ? <StepOne /> : <StepTwo />}
+
+      {errors.length > 0 && (
+        <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
+          {errors.map((e, i) => (
+            <p key={i} className="text-sm text-red-600">
+              {e}
+            </p>
+          ))}
         </div>
+      )}
 
-        {currentStep === 1 ? <StepOne /> : <StepTwo />}
-
-        {errors.length > 0 && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl">
-            {errors.map((e, i) => (
-              <p key={i} className="text-sm text-red-600">
-                {e}
-              </p>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pt-[16px]">
         {currentStep === 1 ? (
           <>
             <button
               onClick={() => router.push("/assignments")}
-              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] px-6 py-3 font-medium transition-colors"
+              className="font-['Bricolage_Grotesque'] font-[500] text-[15px] text-[#5E5E5E] hover:text-[#303030] transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleNext}
-              className="flex items-center gap-2 px-8 py-3 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] transition-colors"
+              className="h-[48px] px-[32px] bg-[#181818] text-[#FFFFFF] rounded-[12px] font-['Bricolage_Grotesque'] font-[600] text-[15px] hover:bg-[#000000] transition-colors"
             >
               Next
-              <ArrowRight size={16} />
             </button>
           </>
         ) : (
@@ -157,7 +136,7 @@ export default function CreateAssignmentPage() {
                 setErrors([]);
                 setStep(1);
               }}
-              className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] px-6 py-3 font-medium transition-colors"
+              className="flex items-center gap-2 font-['Bricolage_Grotesque'] font-[500] text-[15px] text-[#5E5E5E] hover:text-[#303030] transition-colors"
             >
               <ArrowLeft size={16} />
               Previous
@@ -165,7 +144,7 @@ export default function CreateAssignmentPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex items-center gap-2 px-8 py-3 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              className="h-[48px] px-[32px] bg-[#181818] text-[#FFFFFF] rounded-[12px] font-['Bricolage_Grotesque'] font-[600] text-[15px] hover:bg-[#000000] disabled:opacity-60 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
             >
               {isSubmitting ? (
                 <>

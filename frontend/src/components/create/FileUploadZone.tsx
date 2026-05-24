@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Upload, X, FileText } from "lucide-react";
+import { X, FileText } from "lucide-react";
 import { useGenerationStore } from "../../store/generationStore";
 
 export function FileUploadZone() {
@@ -38,14 +38,14 @@ export function FileUploadZone() {
 
   if (file) {
     return (
-      <div className="flex items-center gap-3 px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl">
-        <FileText size={20} className="text-[var(--primary)] shrink-0" />
-        <span className="text-sm text-[var(--text-primary)] flex-1 truncate font-medium">
+      <div className="flex items-center gap-3 px-5 py-4 bg-[#FAFAFA] border border-[#E5E5E5] rounded-[16px]">
+        <FileText size={20} className="text-[#303030] shrink-0" />
+        <span className="font-['Bricolage_Grotesque'] font-[500] text-[15px] text-[#303030] flex-1 truncate">
           {file.name}
         </span>
         <button
           onClick={clearFile}
-          className="text-gray-400 hover:text-red-500 transition-colors"
+          className="text-[#808080] hover:text-red-500 transition-colors"
         >
           <X size={16} />
         </button>
@@ -60,30 +60,41 @@ export function FileUploadZone() {
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        className={`relative border-2 border-dashed rounded-2xl bg-gray-50 transition-colors p-10 text-center flex flex-col items-center justify-center cursor-pointer ${
+        className={`w-full h-[220px] border-[2px] border-dashed rounded-[16px] bg-[#FAFAFA] flex flex-col items-center justify-center gap-[12px] cursor-pointer transition-colors ${
           isDragging
-            ? "border-[var(--primary)] bg-orange-50"
-            : "border-gray-300 hover:bg-gray-100"
+            ? "border-[#181818] bg-[#F0F0F0]"
+            : "border-[#CCCCCC] hover:bg-[#F0F0F0]"
         }`}
       >
-        <Upload
-          className={`w-12 h-12 mb-4 ${
-            isDragging ? "text-[var(--primary)]" : "text-gray-400"
-          }`}
-        />
-        <p className="text-sm font-medium text-[var(--text-primary)]">
-          Choose a file or drag &amp; drop it here
-        </p>
-        <p className="text-xs text-[var(--text-muted)] mt-2">
-          JPEG, PNG, upto 10MB
-        </p>
-        <button
-          type="button"
-          className="mt-5 px-5 py-2 text-sm border border-gray-300 rounded-lg bg-white text-[var(--text-primary)] hover:bg-gray-50 transition-colors font-medium"
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#808080"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          Browse Files
-        </button>
+          <polyline points="16 16 12 12 8 16" />
+          <line x1="12" y1="12" x2="12" y2="21" />
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+        </svg>
+
+        <p className="font-['Bricolage_Grotesque'] font-[600] text-[16px] text-[#303030]">
+          Drag and drop or choose file to upload
+        </p>
+
+        <div className="flex flex-col items-center gap-[4px]">
+          <p className="font-['Bricolage_Grotesque'] font-[500] text-[13px] text-[#808080]">
+            Max file size: 5MB
+          </p>
+          <p className="font-['Bricolage_Grotesque'] font-[500] text-[13px] text-[#808080]">
+            Supported formats: PDF
+          </p>
+        </div>
       </div>
+
       <input
         ref={inputRef}
         type="file"
