@@ -23,7 +23,7 @@ export function AIMessageBanner({ assignmentId, assignmentTitle }: AIMessageBann
           </div>
           <div>
             <p className="font-['Bricolage_Grotesque'] font-[700] text-[20px] text-white leading-tight">
-              AI-Generated Question Paper
+              Certainly! Here are your customized Question Papers
             </p>
             <p className="font-['Bricolage_Grotesque'] font-[400] text-[14px] text-white/60 mt-[4px]">
               Here is your customized question paper for{" "}
@@ -33,15 +33,13 @@ export function AIMessageBanner({ assignmentId, assignmentTitle }: AIMessageBann
         </div>
       </div>
 
-      <div className="w-[200px] h-[44px] flex items-center gap-[16px]">
-        <button
-          onClick={handleDownload}
-          className="w-[152px] h-[32px] flex items-center justify-center gap-[8px] bg-white text-black rounded-[8px] font-['Bricolage_Grotesque'] font-[600] text-[13px] hover:bg-gray-100 transition-colors"
-        >
-          <Download size={13} />
-          Download PDF
-        </button>
-      </div>
+      <button
+        onClick={handleDownload}
+        className="w-[200px] h-[44px] flex items-center justify-center gap-[16px] bg-white text-black rounded-[8px] font-['Bricolage_Grotesque'] font-[600] text-[14px] hover:bg-gray-100 transition-colors opacity-100"
+      >
+        <Download size={15} />
+        Download PDF
+      </button>
     </div>
   );
 }
