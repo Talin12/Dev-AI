@@ -32,9 +32,9 @@ export function ExamPaper({ paper, assignment, onRegenerate }: ExamPaperProps) {
   }
 
   return (
-    <div className="px-[40px] pt-[40px] pb-[56px]">
+    <div className="w-full bg-[#FFFFFF] rounded-[32px] border-t-[4px] border-gray-100 p-[32px] flex flex-col gap-[24px] shadow-sm">
       {/* Action row */}
-      <div className="flex items-center justify-end gap-[12px] mb-[32px]">
+      <div className="flex items-center justify-end gap-[12px]">
         {error && <span className="text-xs text-red-500 mr-auto">{error}</span>}
         <button
           onClick={handleRegenerate}
