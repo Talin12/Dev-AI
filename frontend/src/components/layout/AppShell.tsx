@@ -10,7 +10,7 @@ const mobileNavItems = [
   { href: "/home",        icon: Grid2X2,  label: "Home" },
   { href: "/assignments", icon: FileText,  label: "Assignments" },
   { href: "/library",     icon: Clock3,    label: "Library" },
-  { href: "/toolkit",     icon: BookOpen,  label: "AI" },
+  { href: "/toolkit",     icon: BookOpen,  label: "AI Toolkit" },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -37,14 +37,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Mobile bottom navigation — hidden on md+ */}
       <div className="fixed bottom-0 left-0 w-full h-[157px] bg-[#F0F0F00D] backdrop-blur-[4px] z-50 flex flex-col justify-end pb-[20px] px-[10px] md:hidden">
 
-        {/* FAB */}
-        <Link
-          href="/assignments/create"
-          className="w-[48px] h-[48px] rounded-full bg-[#FFFFFF] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F] flex items-center justify-center mx-auto mb-[13px] hover:bg-gray-50 transition-colors"
-          aria-label="Create assignment"
-        >
-          <Plus size={22} className="text-[#303030]" strokeWidth={2.5} />
-        </Link>
+        {/* FAB — right-aligned above the dark bar */}
+        <div className="w-full max-w-[373px] mx-auto flex justify-end mb-[13px] pr-[12px]">
+          <Link
+            href="/assignments/create"
+            className="w-[48px] h-[48px] rounded-full bg-[#FFFFFF] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F] flex items-center justify-center hover:bg-gray-50 transition-colors"
+            aria-label="Create assignment"
+          >
+            <Plus size={22} className="text-[#303030]" strokeWidth={2.5} />
+          </Link>
+        </div>
 
         {/* Dark bar */}
         <div className="w-full max-w-[373px] h-[72px] mx-auto bg-[#181818] rounded-[24px] px-[24px] py-[8px] flex justify-between items-center shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]">
@@ -52,10 +54,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               key={label}
               href={href}
-              aria-label={label}
-              className="w-[52px] h-[52px] rounded-[26px] p-[13px] flex items-center justify-center text-white/50 hover:text-white transition-colors"
+              className="flex flex-col items-center justify-center gap-[4px] min-w-[52px] h-[52px] text-white/50 hover:text-white transition-colors"
             >
-              <Icon size={22} strokeWidth={2} />
+              <Icon size={20} strokeWidth={2} />
+              <span className="font-['Bricolage_Grotesque'] text-[10px] font-[500] tracking-tight leading-none">
+                {label}
+              </span>
             </Link>
           ))}
         </div>
