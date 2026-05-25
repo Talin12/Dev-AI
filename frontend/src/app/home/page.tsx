@@ -44,7 +44,7 @@ export default function HomePage() {
       </div>
 
       {/* Welcome banner */}
-      <div className="w-full bg-[#181818] rounded-[24px] px-[32px] py-[28px] flex items-center justify-between gap-[24px]">
+      <div className="w-full bg-[#181818] rounded-[24px] px-[24px] md:px-[32px] py-[28px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px]">
         <div className="flex items-start gap-[14px]">
           <div className="flex gap-[4px] mt-1 shrink-0">
             <Sparkles size={18} className="text-white" fill="white" />
@@ -69,7 +69,7 @@ export default function HomePage() {
       </div>
 
       {/* Stats row */}
-      <div className="w-full grid grid-cols-3 gap-[12px]">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-[12px]">
         {[
           {
             label: "Total Assignments",
@@ -179,7 +179,7 @@ export default function HomePage() {
       </div>
 
       {/* Quick links */}
-      <div className="w-full grid grid-cols-2 gap-[12px]">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-[12px]">
         <Link
           href="/assignments"
           className="w-full bg-white rounded-[20px] px-[24px] py-[20px] flex items-center gap-[14px] border border-[#F0F0F0] shadow-sm hover:shadow-md transition-shadow group"

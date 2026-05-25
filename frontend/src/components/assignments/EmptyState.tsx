@@ -29,16 +29,15 @@ export function EmptyState() {
           </p>
         </div>
 
-        {/* CTA Button with exact Figma styling and gradient border */}
-        <Link 
+        <Link
           href="/assignments/create"
-          className="flex items-center justify-center px-[24px] py-[12px] h-[46px] min-w-[277px] bg-[#181818] text-white rounded-lg hover:bg-black transition-all duration-300 ease-out font-medium text-sm"
-          style={{
-            border: "1.5px solid transparent",
-            borderImage: "linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(102, 102, 102, 0) 100%) 1"
-          }}
+          className="w-[277px] h-[46px] py-[12px] px-[24px] gap-[4px] bg-[#181818] rounded-full text-[#FFFFFF] font-['Bricolage_Grotesque'] text-[16px] font-[500] tracking-[-0.04em] flex items-center justify-center border-[1.5px] border-white/20 hover:bg-black transition-colors"
         >
-          + Create Your First Assignment
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Create Your First Assignment
         </Link>
       </div>
     </div>

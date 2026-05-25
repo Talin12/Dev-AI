@@ -28,8 +28,8 @@ export default function AssignmentsPage() {
         </div>
       </div>
 
-      <div className="w-full h-[64px] bg-[#FFFFFF] px-[16px] rounded-2xl flex items-center justify-between shadow-sm">
-        <button className="flex items-center gap-[8px]">
+      <div className="w-full min-h-[64px] bg-[#FFFFFF] px-[16px] rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[12px] py-[10px] sm:py-0 shadow-sm">
+        <button className="flex items-center gap-[8px] shrink-0">
           <svg
             width="16"
             height="16"
@@ -55,7 +55,7 @@ export default function AssignmentsPage() {
           </svg>
         </button>
 
-        <div className="w-[380px] h-[44px] flex items-center gap-[12px] px-[16px] border border-gray-200 rounded-full">
+        <div className="w-full sm:w-auto sm:max-w-[380px] flex-1 h-[44px] flex items-center gap-[12px] px-[16px] border border-gray-200 rounded-full">
           <Search className="w-[20px] h-[20px] text-[#A9A9A9] shrink-0" />
           <input
             type="text"
@@ -69,8 +69,7 @@ export default function AssignmentsPage() {
 
       <Link
         href="/assignments/create"
-        className="fixed bottom-[24px] z-50 flex items-center gap-[8px] h-[48px] px-[24px] bg-[#181818] text-white rounded-full font-['Bricolage_Grotesque'] font-[600] text-[15px] shadow-[0_8px_32px_rgba(0,0,0,0.24)] hover:bg-[#2a2a2a] transition-colors"
-        style={{ left: "calc(50% + 157px)", transform: "translateX(-50%)" }}
+        className="fixed bottom-[24px] left-1/2 -translate-x-1/2 lg:left-[calc(50%+157px)] z-50 flex items-center gap-[8px] h-[48px] px-[24px] bg-[#181818] text-white rounded-full font-['Bricolage_Grotesque'] font-[600] text-[15px] shadow-[0_8px_32px_rgba(0,0,0,0.24)] hover:bg-[#2a2a2a] transition-colors"
       >
         <Sparkles size={15} fill="currentColor" strokeWidth={1.5} />
         Create Assignment

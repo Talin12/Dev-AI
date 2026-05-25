@@ -27,13 +27,13 @@ interface SidebarProps {
   onClose?: () => void;
 }
 
-export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
+export function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname();
   const { assignments } = useAssignmentStore();
   const assignmentCount = assignments.length;
 
   return (
-    <aside className="w-[304px] h-[calc(100vh-24px)] sticky top-[12px] shrink-0 bg-[#FFFFFF] rounded-[16px] p-[24px] flex flex-col justify-between shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]">
+    <aside className="hidden md:flex w-[304px] shrink-0 h-[calc(100vh-24px)] sticky top-[12px] flex-col justify-between bg-[#FFFFFF] rounded-[16px] p-[24px] shadow-[0px_32px_48px_0px_#00000033,0px_16px_48px_0px_#0000001F]">
         <Link href="/home" onClick={onClose} className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-[9px] bg-[linear-gradient(180deg,#e56820_0%,#d45e3e_100%)] shadow-[0_12px_20px_rgba(197,53,10,0.25)]">
             <span className="text-[28px] font-black leading-none text-white">V</span>
