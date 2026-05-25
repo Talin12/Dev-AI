@@ -5,7 +5,7 @@ import { useGenerationStore } from "../../store/generationStore";
 const labelClass =
   "block font-['Bricolage_Grotesque'] font-[600] text-[14px] text-[#303030] tracking-[-0.04em] mb-[8px]";
 const inputClass =
-  "w-full h-[48px] px-[16px] rounded-[12px] border border-[#E5E5E5] bg-[#FAFAFA] focus:border-[#181818] outline-none font-['Bricolage_Grotesque'] font-[500] text-[15px] placeholder-[#A9A9A9] transition-colors";
+  "w-full h-[48px] rounded-[12px] bg-[#FAFAFA] border border-[#E5E5E5] pl-[16px] pr-[44px] outline-none focus:border-[#181818] transition-colors font-['Bricolage_Grotesque'] font-[500] text-[15px] placeholder-[#A9A9A9]";
 
 export function StepOne() {
   const {
@@ -37,23 +37,41 @@ export function StepOne() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
         <div>
           <label className={labelClass}>Assignment Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setField("title", e.target.value)}
-            placeholder="e.g. Mid-term Science Quiz"
-            className={inputClass}
-          />
+          <div className="relative w-full">
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setField("title", e.target.value)}
+              placeholder="e.g. Mid-term Science Quiz"
+              className={inputClass}
+            />
+            <button type="button" className="absolute right-[12px] top-1/2 -translate-y-1/2 text-[#A9A9A9] hover:text-[#303030] transition-colors p-[4px] flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" x2="12" y1="19" y2="22"></line>
+              </svg>
+            </button>
+          </div>
         </div>
         <div>
           <label className={labelClass}>Subject</label>
-          <input
-            type="text"
-            value={subject}
-            onChange={(e) => setField("subject", e.target.value)}
-            placeholder="e.g. Science"
-            className={inputClass}
-          />
+          <div className="relative w-full">
+            <input
+              type="text"
+              value={subject}
+              onChange={(e) => setField("subject", e.target.value)}
+              placeholder="e.g. Science"
+              className={inputClass}
+            />
+            <button type="button" className="absolute right-[12px] top-1/2 -translate-y-1/2 text-[#A9A9A9] hover:text-[#303030] transition-colors p-[4px] flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" x2="12" y1="19" y2="22"></line>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
