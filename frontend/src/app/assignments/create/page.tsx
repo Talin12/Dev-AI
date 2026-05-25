@@ -124,7 +124,7 @@ export default function CreateAssignmentPage() {
             </button>
             <button
               onClick={handleNext}
-              className="h-[48px] px-[32px] bg-[#181818] text-[#FFFFFF] rounded-[12px] font-['Bricolage_Grotesque'] font-[600] text-[15px] hover:bg-[#000000] transition-colors"
+              className="h-[48px] px-[32px] bg-[#181818] text-white rounded-[12px] font-['Bricolage_Grotesque'] font-[600] text-[15px] tracking-[-0.04em] hover:bg-black transition-colors"
             >
               Next
             </button>
@@ -144,7 +144,7 @@ export default function CreateAssignmentPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="h-[48px] px-[32px] bg-[#181818] text-[#FFFFFF] rounded-[12px] font-['Bricolage_Grotesque'] font-[600] text-[15px] hover:bg-[#000000] disabled:opacity-60 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+              className="h-[48px] px-[32px] bg-[#181818] text-white rounded-[12px] font-['Bricolage_Grotesque'] font-[600] text-[15px] tracking-[-0.04em] hover:bg-black disabled:opacity-60 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
             >
               {isSubmitting ? (
                 <>

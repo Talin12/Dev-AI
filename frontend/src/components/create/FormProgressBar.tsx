@@ -5,7 +5,7 @@ interface FormProgressBarProps {
 export function FormProgressBar({ currentStep }: FormProgressBarProps) {
   return (
     <div className="flex flex-col gap-[8px]">
-      <span className="font-['Bricolage_Grotesque'] text-[14px] font-[700] text-[#303030]">
+      <span className="font-['Bricolage_Grotesque'] text-[14px] font-[700] text-[#303030] tracking-[-0.04em]">
         Step {currentStep} of 2
       </span>
       <div className="flex gap-[8px]">

@@ -3,7 +3,7 @@
 import { useGenerationStore } from "../../store/generationStore";
 
 const labelClass =
-  "block font-['Bricolage_Grotesque'] font-[600] text-[14px] text-[#303030] mb-[8px]";
+  "block font-['Bricolage_Grotesque'] font-[600] text-[14px] text-[#303030] tracking-[-0.04em] mb-[8px]";
 const inputClass =
   "w-full h-[48px] px-[16px] rounded-[12px] border border-[#E5E5E5] bg-[#FAFAFA] focus:border-[#181818] outline-none font-['Bricolage_Grotesque'] font-[500] text-[15px] placeholder-[#A9A9A9] transition-colors";
 
@@ -26,10 +26,10 @@ export function StepOne() {
   return (
     <div className="w-full bg-[#FFFFFF] rounded-[24px] p-[40px] flex flex-col gap-[32px] shadow-[0px_16px_48px_0px_#0000000D]">
       <div>
-        <h1 className="font-['Bricolage_Grotesque'] font-[800] text-[32px] text-[#303030] leading-tight">
+        <h1 className="font-['Bricolage_Grotesque'] font-[800] text-[32px] tracking-[-0.04em] text-[#303030] leading-tight">
           Create New Assignment
         </h1>
-        <p className="font-['Bricolage_Grotesque'] text-[16px] text-[#5E5E5E8C] mt-1">
+        <p className="font-['Bricolage_Grotesque'] text-[16px] text-[#5E5E5E8C] tracking-[-0.04em] mt-2">
           Let's create something new.
         </p>
       </div>

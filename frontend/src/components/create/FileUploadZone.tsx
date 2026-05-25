@@ -81,15 +81,15 @@ export function FileUploadZone() {
           <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
         </svg>
 
-        <p className="font-['Bricolage_Grotesque'] font-[600] text-[16px] text-[#303030]">
+        <p className="font-['Bricolage_Grotesque'] font-[600] text-[16px] text-[#303030] tracking-[-0.04em]">
           Drag and drop or choose file to upload
         </p>
 
         <div className="flex flex-col items-center gap-[4px]">
-          <p className="font-['Bricolage_Grotesque'] font-[500] text-[13px] text-[#808080]">
+          <p className="font-['Bricolage_Grotesque'] font-[500] text-[13px] text-[#808080] tracking-[-0.04em]">
             Max file size: 5MB
           </p>
-          <p className="font-['Bricolage_Grotesque'] font-[500] text-[13px] text-[#808080]">
+          <p className="font-['Bricolage_Grotesque'] font-[500] text-[13px] text-[#808080] tracking-[-0.04em]">
             Supported formats: PDF
           </p>
         </div>
