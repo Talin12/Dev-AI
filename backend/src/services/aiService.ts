@@ -1,8 +1,11 @@
-import Groq from "groq-sdk";
+import OpenAI from "openai";
 import { z } from "zod";
 import type { Assignment, QuestionPaper } from "../types";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const hf = new OpenAI({
+  apiKey: process.env.HF_API_KEY,
+  baseURL: "https://api-inference.huggingface.co/v1",
+});
 
 const TYPE_ALIAS_MAP: Record<string, string> = {
   multiple_choice: "mcq",
@@ -218,8 +221,8 @@ export async function generatePaper(
 ): Promise<Omit<QuestionPaper, "assignmentId" | "generatedAt">> {
   const prompt = buildPrompt(assignment);
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+  const completion = await hf.chat.completions.create({
+    model: "meta-llama/Meta-Llama-3.1-8B-Instruct",
     messages: [
       {
         role: "system",
@@ -232,14 +235,13 @@ export async function generatePaper(
       },
     ],
     temperature: 0.7,
-    max_tokens: 8000,
-    response_format: { type: "json_object" },
+    max_tokens: 4096,
   });
 
   const raw = completion.choices[0]?.message?.content;
 
   if (!raw) {
-    throw new Error("Groq returned an empty response");
+    throw new Error("HuggingFace returned an empty response");
   }
 
   const cleaned = stripFences(raw);
@@ -249,7 +251,7 @@ export async function generatePaper(
   try {
     parsed = JSON.parse(cleaned);
   } catch {
-    throw new Error("Failed to parse Groq response as JSON");
+    throw new Error("Failed to parse HuggingFace response as JSON");
   }
 
   const result = GeneratedPaperSchema.safeParse(parsed);
