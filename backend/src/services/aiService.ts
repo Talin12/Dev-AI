@@ -222,7 +222,7 @@ export async function generatePaper(
   const prompt = buildPrompt(assignment);
 
   const completion = await hf.chat.completions.create({
-    model: "meta-llama/Meta-Llama-3.1-8B-Instruct",
+    model: "Qwen/Qwen2.5-7B-Instruct",
     messages: [
       {
         role: "system",
